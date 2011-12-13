@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rails | My Octopress Blog]]></title>
+  <title><![CDATA[Category: Rails | Треск и скрежет в моей голове]]></title>
   <link href="http://alfss.github.com/blog/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://alfss.github.com/blog/"/>
-  <updated>2011-12-14T02:50:09+04:00</updated>
+  <updated>2011-12-14T02:52:37+04:00</updated>
   <id>http://alfss.github.com/blog/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Sergey V. Kravchuk]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
