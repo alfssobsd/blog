@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
+  <title>Кодировка СКУД Sphinx + Rails - My Octopress Blog</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на &hellip;">
+  <meta name="description" content="Волю случая пришлось залезть в БД данного СКУД.
+Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
+Rails на это реагирует &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://alfss.github.com/blog">
+  <link rel="canonical" href="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails">
   <link href="/blog/favicon.png" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/blog/javascripts/modernizr-2.0.js"></script>
@@ -63,61 +64,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2011/12/14/zimbra-plus-gralisting/">Zimbra + Graylisting</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-14T01:25:00+04:00" pubdate data-updated="true">Dec 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
-
-<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
-
-<h3>Собственно приступим к настройке. (&#8220;Смерть спаму!&#8221;)</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2011/12/14/zimbra-plus-gralisting/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/">Кодировка СКУД Sphinx + Rails</a></h1>
+      <h1 class="entry-title">Кодировка СКУД Sphinx + Rails</h1>
     
     
       <p class="meta">
@@ -140,7 +92,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Волю случая пришлось залезть в БД данного СКУД.
+<div class="entry-content"><p>Волю случая пришлось залезть в БД данного СКУД.
 Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
 Rails на это реагирует невнятным бормотанием:</p>
 
@@ -168,18 +120,59 @@ Rails на это реагирует невнятным бормотанием:<
 
 <p>ps. Письмо я товарищам написал, надеюсь что в новых релизах исправят.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2011-12-13T01:21:00+04:00" pubdate data-updated="true">Dec 13<span>th</span>, 2011</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/blog/categories/acs-sphinx/'>ACS sphinx</a>, <a class='category' href='/blog/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/blog/categories/rails/'>Rails</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/" data-via="" data-counturl="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/blog/2011/12/14/zimbra-plus-gralisting/" title="next Post: Zimbra + Graylisting">Zimbra + Graylisting &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -204,6 +197,7 @@ Rails на это реагирует невнятным бормотанием:<
 
   
 </aside>
+
 
     </div>
   </div>

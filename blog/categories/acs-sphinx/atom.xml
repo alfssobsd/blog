@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ACS sphinx | My Octopress Blog]]></title>
+  <link href="http://alfss.github.com/blog/blog/categories/acs-sphinx/atom.xml" rel="self"/>
+  <link href="http://alfss.github.com/blog/"/>
+  <updated>2011-12-14T02:50:09+04:00</updated>
+  <id>http://alfss.github.com/blog/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Кодировка СКУД Sphinx + Rails]]></title>
+    <link href="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
+    <updated>2011-12-13T01:21:00+04:00</updated>
+    <id>http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
+    <content type="html"><![CDATA[<p>Волю случая пришлось залезть в БД данного СКУД.
+Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
+Rails на это реагирует невнятным бормотанием:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invalid</span> <span class="n">multibyte</span> <span class="n">char</span> <span class="p">(</span><span class="no">UTF</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="n">syntax</span> <span class="n">error</span><span class="p">,</span> <span class="n">unexpected</span> <span class="vg">$end</span><span class="p">,</span> <span class="n">expecting</span> <span class="n">keyword_end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Костыль был найден почти сразу :)</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@Parsonal</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Но правильное решение, это изменить кодировку таблиц.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>change_codepage_personal  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">personal</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span> <span class="k">convert</span> <span class="k">to</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span> <span class="k">collate</span> <span class="n">utf8_general_ci</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>ps. Письмо я товарищам написал, надеюсь что в новых релизах исправят.</p>
+]]></content>
+  </entry>
+  
+</feed>

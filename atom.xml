@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://alfss.github.com/blog/atom.xml" rel="self"/>
   <link href="http://alfss.github.com/blog/"/>
-  <updated>2011-12-14T02:48:10+04:00</updated>
+  <updated>2011-12-14T02:50:09+04:00</updated>
   <id>http://alfss.github.com/blog/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,121 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
+    <link href="http://alfss.github.com/blog/blog/2011/12/14/zimbra-plus-gralisting/"/>
+    <updated>2011-12-14T01:25:00+04:00</updated>
+    <id>http://alfss.github.com/blog/blog/2011/12/14/zimbra-plus-gralisting</id>
+    <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
+В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
+
+<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
+
+<h3>Собственно приступим к настройке. (&#8220;Смерть спаму!&#8221;)</h3>
+
+<!--more-->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>su - zimbra
+</span><span class='line'>zmprov ms mail.example.net +zimbraServiceEnabled cbpolicyd
+</span><span class='line'>zmlocalconfig -e postfix_enable_smtpd_policyd=yes
+</span><span class='line'>zmprov mcf +zimbraMtaRestriction "check_policy_service inet:127.0.0.1:10031"
+</span><span class='line'>zmlocalconfig -e cbpolicyd_log_level=4
+</span><span class='line'>zmlocalconfig -e cbpolicyd_log_detail=modules,tracking,policies
+</span><span class='line'>zmlocalconfig -e cbpolicyd_module_accesscontrol=1 cbpolicyd_module_checkhelo=1 \
+</span><span class='line'>  cbpolicyd_module_checkspf=1 cbpolicyd_module_greylisting=1 cbpolicyd_module_quotas=1
+</span><span class='line'>zmmtactl restart
+</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Да, это все, что требовалось для запуска демона и скрещивания его с postfix. :)</p>
+
+<h3>Настраиваем веб морду.</h3>
+
+<p>Добавим в конец  /opt/zimbra/conf/httpd.conf  следующие строчки:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Alias /policyd /opt/zimbra/cbpolicyd/share/webui/
+</span><span class='line'>
+</span><span class='line'>&lt;Directory /opt/zimbra/cbpolicyd/share/webui/>
+</span><span class='line'>    Order Deny,Allow
+</span><span class='line'>    Deny from all
+</span><span class='line'>    Allow from 192.168.1.0/255.255.255.0
+</span><span class='line'>&lt;/Directory></span></code></pre></td></tr></table></div></figure>
+
+
+<p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Перезапустим апача который идет в комплекте с zimbra.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Теперь панель управления policyd доступна по адресу  http://mail.example.net:7780/policyd/index.php</p>
+
+<p>Правда панель управления оставляет желать лучшего вплане UI, но это терпимо.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Кодировка СКУД Sphinx + Rails]]></title>
+    <link href="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
+    <updated>2011-12-13T01:21:00+04:00</updated>
+    <id>http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
+    <content type="html"><![CDATA[<p>Волю случая пришлось залезть в БД данного СКУД.
+Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
+Rails на это реагирует невнятным бормотанием:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invalid</span> <span class="n">multibyte</span> <span class="n">char</span> <span class="p">(</span><span class="no">UTF</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="n">syntax</span> <span class="n">error</span><span class="p">,</span> <span class="n">unexpected</span> <span class="vg">$end</span><span class="p">,</span> <span class="n">expecting</span> <span class="n">keyword_end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Костыль был найден почти сразу :)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@Parsonal</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Но правильное решение, это изменить кодировку таблиц.</p>
+
+<figure class='code'><figcaption><span>change_codepage_personal  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="ss">`personal`</span> <span class="k">convert</span> <span class="k">to</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span> <span class="k">collate</span> <span class="n">utf8_general_ci</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ps. Письмо я товарищам написал, надеюсь что в новых релизах исправят.</p>
+]]></content>
+  </entry>
   
 </feed>

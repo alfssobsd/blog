@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Zimbra + Graylisting - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
+В OpenBSD я использовал spamd, но к сожалению он не портирован на &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alfss.github.com/blog/blog/2011/12/14/zimbra-plus-gralisting">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alfss.github.com/blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Zimbra + Graylisting</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-14T01:25:00+04:00" pubdate data-updated="true">Dec 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
+В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
+
+<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
+
+<h3>Собственно приступим к настройке. (&#8220;Смерть спаму!&#8221;)</h3>
+
+<!--more-->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>su - zimbra
+</span><span class='line'>zmprov ms mail.example.net +zimbraServiceEnabled cbpolicyd
+</span><span class='line'>zmlocalconfig -e postfix_enable_smtpd_policyd=yes
+</span><span class='line'>zmprov mcf +zimbraMtaRestriction "check_policy_service inet:127.0.0.1:10031"
+</span><span class='line'>zmlocalconfig -e cbpolicyd_log_level=4
+</span><span class='line'>zmlocalconfig -e cbpolicyd_log_detail=modules,tracking,policies
+</span><span class='line'>zmlocalconfig -e cbpolicyd_module_accesscontrol=1 cbpolicyd_module_checkhelo=1 \
+</span><span class='line'>  cbpolicyd_module_checkspf=1 cbpolicyd_module_greylisting=1 cbpolicyd_module_quotas=1
+</span><span class='line'>zmmtactl restart
+</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Да, это все, что требовалось для запуска демона и скрещивания его с postfix. :)</p>
+
+<h3>Настраиваем веб морду.</h3>
+
+<p>Добавим в конец  /opt/zimbra/conf/httpd.conf  следующие строчки:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Alias /policyd /opt/zimbra/cbpolicyd/share/webui/
+</span><span class='line'>
+</span><span class='line'>&lt;Directory /opt/zimbra/cbpolicyd/share/webui/>
+</span><span class='line'>    Order Deny,Allow
+</span><span class='line'>    Deny from all
+</span><span class='line'>    Allow from 192.168.1.0/255.255.255.0
+</span><span class='line'>&lt;/Directory></span></code></pre></td></tr></table></div></figure>
+
+
+<p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Перезапустим апача который идет в комплекте с zimbra.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Теперь панель управления policyd доступна по адресу  http://mail.example.net:7780/policyd/index.php</p>
+
+<p>Правда панель управления оставляет желать лучшего вплане UI, но это терпимо.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-14T01:25:00+04:00" pubdate data-updated="true">Dec 14<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/gralisting/'>Gralisting</a>, <a class='category' href='/blog/blog/categories/mta/'>MTA</a>, <a class='category' href='/blog/blog/categories/spam/'>SPAM</a>, <a class='category' href='/blog/blog/categories/zimbra/'>Zimbra</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alfss.github.com/blog/blog/2011/12/14/zimbra-plus-gralisting/" data-via="" data-counturl="http://alfss.github.com/blog/blog/2011/12/14/zimbra-plus-gralisting/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/" title="Previous Post: Кодировка СКУД Sphinx + Rails">&laquo; Кодировка СКУД Sphinx + Rails</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2011/12/14/zimbra-plus-gralisting/">Zimbra + Graylisting</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/">Кодировка СКУД Sphinx + Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
