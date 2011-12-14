@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Zimbra | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/zimbra/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2011-12-14T13:20:51+04:00</updated>
+  <updated>2011-12-14T13:28:15+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
-    <link href="http://blog.alfss.net//blog/2011/12/14/zimbra-plus-gralisting/"/>
+    <link href="http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/"/>
     <updated>2011-12-14T01:25:00+04:00</updated>
-    <id>http://blog.alfss.net//blog/2011/12/14/zimbra-plus-gralisting</id>
+    <id>http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting</id>
     <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
 В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
 
