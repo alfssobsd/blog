@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ACS sphinx | Треск и скрежет в моей голове]]></title>
-  <link href="http://alfss.github.com/blog/blog/categories/acs-sphinx/atom.xml" rel="self"/>
-  <link href="http://alfss.github.com/blog/"/>
-  <updated>2011-12-14T04:15:41+04:00</updated>
-  <id>http://alfss.github.com/blog/</id>
+  <link href="http://blog.alfss.net//blog/categories/acs-sphinx/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net//"/>
+  <updated>2011-12-14T13:20:51+04:00</updated>
+  <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Кодировка СКУД Sphinx + Rails]]></title>
-    <link href="http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
+    <link href="http://blog.alfss.net//blog/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
     <updated>2011-12-13T01:21:00+04:00</updated>
-    <id>http://alfss.github.com/blog/blog/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
+    <id>http://blog.alfss.net//blog/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
     <content type="html"><![CDATA[<p>Волю случая пришлось залезть в БД данного СКУД.
 Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
 Rails на это реагирует невнятным бормотанием:</p>
