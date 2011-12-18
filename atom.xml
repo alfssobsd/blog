@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2011-12-18T16:11:45+04:00</updated>
+  <updated>2011-12-18T16:14:58+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -18,14 +18,14 @@
     <link href="http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/"/>
     <updated>2011-12-18T16:00:00+04:00</updated>
     <id>http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail</id>
-    <content type="html"><![CDATA[<p>После поднятия Zimbra, потребовалось переносить содержимое ящиков из Gmail и Yandex.
-Я уже в принципе собрался писать свою тулзу, но нашел imapsync.
-Спасибо тем людям которые раньше меня озаботились этой задачей :).</p>
+    <content type="html"><![CDATA[<p>После поднятия Zimbra, потребовалось переносить содержимое ящиков из Gmail и Yandex.<br>
+Я уже в принципе собрался писать свою тулзу, но нашел imapsync.<br>
+Спасибо тем людям которые раньше меня озаботились этой задачей :).<br></p>
 
 <!--more-->
 
 
-<p>Файл с пользователями.
+<p>Файл с пользователями.<br>
 старый email:пароль:imap сервере:новый email: пароль: мой imap сервер</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -105,13 +105,11 @@
     <id>http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra</id>
     <content type="html"><![CDATA[<p>У меня в наличии:</p>
 
-<p>CPU: 64 bit 2-core</p>
+<p>CPU: 64 bit 2-core<br>
+Mem: 3Gb<br></p>
 
-<p>Mem: 3Gb</p>
-
-<p>После установки нужно немного подкорректировать настройки.</p>
-
-<p>Основное внимание нужно уделить Java и MySQL.</p>
+<p>После установки нужно немного подкорректировать настройки.<br>
+Основное внимание нужно уделить Java и MySQL.<br></p>
 
 <!--more-->
 
@@ -144,13 +142,10 @@
 
 <h3>java</h3>
 
-<p>Устанавливаем heap 768m.</p>
-
-<p>Размер нового поколения - 25 % от heap</p>
-
-<p>Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )</p>
-
-<p>То есть мы выделяем по сути heap * 2.</p>
+<p>Устанавливаем heap 768m <br>
+Размер нового поколения - 25 % от heap<br>
+Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )<br>
+То есть мы выделяем по сути heap * 2.<br></p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -161,11 +156,9 @@
 
 <h3>mysql</h3>
 
-<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.</p>
-
-<p>Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.</p>
-
-<p>Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)</p>
+<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.<br>
+Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.<br>
+Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)<br></p>
 
 <p>/opt/zimbra/conf/my.cnf</p>
 
