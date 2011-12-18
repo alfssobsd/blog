@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2011-12-18T16:09:25+04:00</updated>
+  <updated>2011-12-18T16:11:00+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -142,10 +142,13 @@ Mem: 3Gb</p>
 
 <h3>java</h3>
 
-<p>Устанавливаем heap 768m
-Размер нового поколения - 25 % от heap
-Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )
-То есть мы выделяем по сути heap * 2.</p>
+<p>Устанавливаем heap 768m.</p>
+
+<p>Размер нового поколения - 25 % от heap</p>
+
+<p>Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )</p>
+
+<p>То есть мы выделяем по сути heap * 2.</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -156,9 +159,11 @@ Mem: 3Gb</p>
 
 <h3>mysql</h3>
 
-<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.
-Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.
-Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)</p>
+<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.</p>
+
+<p>Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.</p>
+
+<p>Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)</p>
 
 <p>/opt/zimbra/conf/my.cnf</p>
 
