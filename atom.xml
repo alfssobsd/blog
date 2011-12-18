@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2011-12-14T13:28:15+04:00</updated>
+  <updated>2011-12-18T16:09:25+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -12,6 +12,186 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Миграция Imap яшиков с Gmail и Yandex]]></title>
+    <link href="http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/"/>
+    <updated>2011-12-18T16:00:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail</id>
+    <content type="html"><![CDATA[<p>После поднятия Zimbra, потребовалось переносить содержимое ящиков из Gmail и Yandex.
+Я уже в принципе собрался писать свою тулзу, но нашел imapsync.
+Спасибо тем людям которые раньше меня озаботились этой задачей :).</p>
+
+<!--more-->
+
+
+<p>Файл с пользователями.
+старый email:пароль:imap сервере:новый email: пароль: мой imap сервер</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">test</span>@example.net:examplepass1:imap.googlemail.com:test@example.net:examplepass2:localhost
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Скрипт перебирающий пользователей из файла users и синхронизирующий ящики.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">LOG</span><span class="o">=</span><span class="s2">&quot;imapsync.log&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in <span class="sb">`</span>cat users<span class="sb">`</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nv">login1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
+</span><span class='line'>    <span class="nv">password1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
+</span><span class='line'>    <span class="nv">host1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $3}&#39;</span><span class="sb">`</span>
+</span><span class='line'>    <span class="nv">login2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $4}&#39;</span><span class="sb">`</span>
+</span><span class='line'>    <span class="nv">password2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $5}&#39;</span><span class="sb">`</span>
+</span><span class='line'>    <span class="nv">host2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $6}&#39;</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;-------------------&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;LOGIN1: ${login1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;PASSWORD1: ${password1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;HOST1: ${host1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;LOGIN2: ${login2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;PASSWORD2: ${password2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;HOST2: ${host2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'><span class="c">#write password</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${password1}&quot;</span> &gt; pass1
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${password2}&quot;</span> &gt; pass2
+</span><span class='line'>
+</span><span class='line'><span class="c">#run sync</span>
+</span><span class='line'>    /usr/bin/imapsync --authmech1 LOGIN --maxsize 52428800 --buffersize 52428800 --host1 <span class="k">${</span><span class="nv">host1</span><span class="k">}</span> --user1 <span class="k">${</span><span class="nv">login1</span><span class="k">}</span> --passfile1 pass1 -ssl1 -port1 993 --host2 <span class="k">${</span><span class="nv">host2</span><span class="k">}</span> --user2 <span class="k">${</span><span class="nv">login2</span><span class="k">}</span>  --passfile2 pass2 -ssl2 -port2 993 --authmech2 LOGIN  --fast --nofoldersizes --useheader Message-Id --noauthmd5 --skipsize --allow3xx --allowsizemismatch
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ps. Ящики на Gmail повторно синхронизирует без проблем и не качает лишнего. Немогу тогоже сказать про yandex :(.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Тюнинг настроек Zimbra 7.1]]></title>
+    <link href="http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/"/>
+    <updated>2011-12-18T14:32:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra</id>
+    <content type="html"><![CDATA[<p>У меня в наличии:</p>
+
+<p>CPU: 64 bit 2-core
+Mem: 3Gb</p>
+
+<p>После установки нужно немного подкорректировать настройки.
+Основное внимание нужно уделить Java и MySQL.</p>
+
+<!--more-->
+
+
+<h3>Сообшения</h3>
+
+<p>Устанавливаем максимальный размер письма 42Mb</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov ms mail.example.net zimbraMailContentMaxSize 44040192
+</span><span class='line'>zmprov ms mail.example.net zimbraFileUploadMaxSize 44040192
+</span><span class='line'>zmprov mcf zimbraFileUploadMaxSize 44040192
+</span><span class='line'>zmprov mcf zimbraMtaMaxMessageSize 44040192
+</span><span class='line'>zmprov mcf zimbraImapMaxRequestSize 44040192
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Индексация ящиков</h3>
+
+<p>Индексация писем каждые 20 сообщений (по умолчанию каждое сообщение)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov mc default zimbraBatchedIndexingSize 20
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>java</h3>
+
+<p>Устанавливаем heap 768m
+Размер нового поколения - 25 % от heap
+Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )
+То есть мы выделяем по сути heap * 2.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_size</span><span class="o">=</span>512
+</span><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_new_size_percent</span><span class="o">=</span>25
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>mysql</h3>
+
+<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.
+Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.
+Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)</p>
+
+<p>/opt/zimbra/conf/my.cnf</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">innodb_buffer_pool_size</span>        <span class="o">=</span> 624370483
+</span><span class='line'><span class="nv">innodb_log_file_size</span>           <span class="o">=</span> 524288000
+</span><span class='line'><span class="nv">innodb_log_buffer_size</span>         <span class="o">=</span> 8388608
+</span><span class='line'>innodb_file_per_table
+</span><span class='line'>
+</span><span class='line'><span class="c"># Value is: 200 + max_connections + 2 * table_cache</span>
+</span><span class='line'><span class="nv">innodb_open_files</span>              <span class="o">=</span> 2710
+</span><span class='line'>
+</span><span class='line'><span class="nv">innodb_max_dirty_pages_pct</span>     <span class="o">=</span> 30
+</span><span class='line'><span class="nv">innodb_flush_method</span>            <span class="o">=</span> O_DIRECT
+</span><span class='line'><span class="nv">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> 0
+</span><span class='line'><span class="nv">max_allowed_packet</span>             <span class="o">=</span> 16777216
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
