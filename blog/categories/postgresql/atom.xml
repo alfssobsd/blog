@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PostgreSQL | Треск и скрежет в моей голове]]></title>
+  <link href="http://blog.alfss.net//blog/categories/postgresql/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net//"/>
+  <updated>2012-03-04T19:42:25+04:00</updated>
+  <id>http://blog.alfss.net//</id>
+  <author>
+    <name><![CDATA[Sergey V. Kravchuk]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Создание deb пакетов на примере postgresql 9.0]]></title>
+    <link href="http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql/"/>
+    <updated>2012-03-04T16:09:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql</id>
+    <content type="html"><![CDATA[<p>Есть несколько способов создать пакет:</p>
+
+<ol>
+<li>Скачать через apt-get source postgres сырцы предыдущей версии и забрать каталог debian из них.</li>
+<li>Checkinstall</li>
+<li>Написать свой пакет.</li>
+</ol>
+
+
+<p>Как не печально, но на первый способ я угрохал больше дня и ничего не вышло. Ибо в постгресе поменялись некоторые файлы.</p>
+
+<p>Второй способ меня разочаровал тем,что там не было возможности добавить init.d скрипт и postinst  ,preinst триггеры.</p>
+
+<p>Собственно дальше я буду описывать 3й способ.</p>
+
+<!--more-->
+
+
+<h3>Рабочее окружение.</h3>
+
+<p>Подготавливаем директории для сборки и скачиваем дистрибутивы.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">DEBEMAIL</span><span class="o">=</span>your.email.address@example.org
+</span><span class='line'><span class="nv">DEBFULLNAME</span><span class="o">=</span><span class="s2">&quot;Firstname Lastname&quot;</span>
+</span><span class='line'><span class="nb">export </span>DEBEMAIL DEBFULLNAME&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;mkdir -p ~/build_deb/postgres/9.0
+</span><span class='line'><span class="nb">cd</span> ~/build_deb/postgres/9.0
+</span><span class='line'>wget http://wwwmaster.postgresql.org/download/mirrors-ftp/source/v9.0.1/postgresql-9.0.1.tar.gz
+</span><span class='line'>tar zxf postgresql-9.0.1.tar.gz
+</span><span class='line'>cp postgresql-9.0.1.tar.gz postgresql-9.0.1.orig.tar.gz
+</span><span class='line'>mv postgresql-9.0.1 postgresql-9.0-9.0.1
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Инициализируем каркас deb пакета:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>postgresql-9.0-9.0.1
+</span><span class='line'>dh_make&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Нам зададут вопрос какого типа этот пакет, я выбрал single&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Type of package: single binary, multiple binary, library, kernel module or cdbs?
+</span><span class='line'><span class="o">[</span>s/m/l/k/b<span class="o">]</span> s
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Если ваши исходники используют для сборки autotools то вам неимоверно повезло.</p>
+
+<p>Соберем информацию о требуемых зависимостях:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dpkg-depcheck -d ./configure --with-libxml <span class="se">\</span>
+</span><span class='line'>--with-libxml <span class="se">\</span>
+</span><span class='line'>--with-libxslt <span class="se">\</span>
+</span><span class='line'>--with-openssl <span class="se">\</span>
+</span><span class='line'>--with-ldap <span class="se">\</span>
+</span><span class='line'>--with-pam <span class="se">\</span>
+</span><span class='line'>--with-perl <span class="se">\</span>
+</span><span class='line'>--with-python <span class="se">\</span>
+</span><span class='line'>--with-tcl <span class="se">\</span>
+</span><span class='line'>--with-ossp-uuid <span class="se">\</span>
+</span><span class='line'>--prefix<span class="o">=</span>/usr <span class="se">\</span>
+</span><span class='line'>--datadir<span class="o">=</span>/usr/share/postgresql
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>У меня получился следуюший список:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>autotools-dev,sp,
+</span><span class='line'>hardening-wrapper,
+</span><span class='line'>libsasl2-2,
+</span><span class='line'>libldap2-dev,
+</span><span class='line'>libtasn1-3,
+</span><span class='line'>sgml-data,
+</span><span class='line'>mawk,
+</span><span class='line'>docbook,
+</span><span class='line'>libk5crypto3,
+</span><span class='line'>python2.6,
+</span><span class='line'>python-support,
+</span><span class='line'>libkrb5support0,
+</span><span class='line'>tcl,
+</span><span class='line'>libossp-uuid-dev,
+</span><span class='line'>libgpg-error0,
+</span><span class='line'>libpam0g-dev,
+</span><span class='line'>libgcrypt11,
+</span><span class='line'>libreadline6-dev,
+</span><span class='line'>libsp1c2,
+</span><span class='line'>flex,
+</span><span class='line'>libkeyutils1,
+</span><span class='line'>docbook-xml,
+</span><span class='line'>libgnutls26,
+</span><span class='line'>libssl-dev,
+</span><span class='line'>libkrb5-3,
+</span><span class='line'>libgssapi-krb5-2,
+</span><span class='line'>tcl8.4-dev,
+</span><span class='line'>libxslt1-dev</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Теперь можно приступить к редактированию файлов в debian/ каталоге.
+Если зайти в данную директорию то можно увидеть шаблоны файлов с расширением “.ex”(example)</p>
+
+<p>Файлы которые интересовали меня :</p>
+
+<ul>
+<li>changelog</li>
+<li>control</li>
+<li>init.d</li>
+<li>postgresql-9.0.postinst</li>
+<li>postgresql-9.0.default</li>
+<li>postgresql-9.0.preinst</li>
+<li>rules</li>
+</ul>
+
+
+<h3>changelog</h3>
+
+<p>Собственно файл в котором ведется лог изменения пакета. А так же из него при генерации берется версия.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>postgresql-9.0 (9.0.1-0ubuntu10.04) unstable; urgency=low&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>Initial release (Closes: #nnnn)  &lt;nnnn is the bug number of your ITP>&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>-- Kravchuk Sergey &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x61;&#108;&#102;&#115;&#115;&#x2e;&#x6f;&#98;&#115;&#x64;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#99;&#x6f;&#109;">&#97;&#x6c;&#x66;&#115;&#x73;&#x2e;&#111;&#98;&#x73;&#100;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;&lt;/a>  Fri, 12 Nov 2010 21:25:56 +0300</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>control</h3>
+
+<p>Описывает какие пакеты будут собраны и какие зависимости.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Source: postgresql-9.0
+</span><span class='line'>Section: database
+</span><span class='line'>Priority: extra
+</span><span class='line'>Maintainer: Kravchuk Sergey &lt;a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x61;&#x6c;&#102;&#115;&#115;&#x2e;&#x6f;&#98;&#115;&#100;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#109;">&#x61;&#108;&#102;&#115;&#x73;&#46;&#x6f;&#98;&#115;&#100;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#109;&lt;/a>
+</span><span class='line'>Build-Depends: debhelper (>= 7), autotools-dev,sp, hardening-wrapper, libsasl2-2, libldap2-dev, libtasn1-3, sgml-data, mawk, docbook, libk5crypto3, python2.6, python-support, libkrb5support0, tcl, libossp-uuid-dev, libgpg-error0, libpam0g-dev, libgcrypt11, libreadline6-dev, libsp1c2, flex, libkeyutils1, docbook-xml, libgnutls26, libssl-dev, libkrb5-3, libgssapi-krb5-2, tcl8.4-dev, libxslt1-dev
+</span><span class='line'>Standards-Version: 3.8.3
+</span><span class='line'>Homepage: http://www.postgresql.org/&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Package: postgresql-9.0
+</span><span class='line'>Architecture: any
+</span><span class='line'>Depends: ${shlibs:Depends}, ${misc:Depends}
+</span><span class='line'>Description: PostgreSQL 9.0
+</span><span class='line'>Database SQL server. Build Sergey Kravchuk.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>init.d</h3>
+
+<p>Скрипт старта</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;! /bin/sh&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;skeleton      example file to build /etc/init.d/ scripts.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;This file should be used to construct scripts <span class="k">for</span> /etc/init.d.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Written by Miquel van Smoorenburg .&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Modified <span class="k">for </span>Debian&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;by Ian Murdock .&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Further changes by Javier Fernandez-Sanguino&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Version:      @<span class="o">(</span><span class="c">#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;PATH<span class="o">=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+</span><span class='line'><span class="nv">DAEMON</span><span class="o">=</span>/usr/bin/postgres
+</span><span class='line'><span class="nv">NAME</span><span class="o">=</span>postgres
+</span><span class='line'><span class="nv">DESC</span><span class="o">=</span>postgres&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;test -x <span class="nv">$DAEMON</span> <span class="o">||</span> <span class="nb">exit </span>0&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;LOGDIR<span class="o">=</span>/var/log/postgres
+</span><span class='line'><span class="nv">PIDFILE</span><span class="o">=</span>/var/run/<span class="nv">$NAME</span>.pid
+</span><span class='line'><span class="nv">DODTIME</span><span class="o">=</span>1                   <span class="c"># Time to wait for the server to die, in seconds&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;If this value is <span class="nb">set </span>too low you might not&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;let some servers to die gracefully and&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;<span class="s1">&#39;restart&#39;</span> will not work&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Include postgresql-9.0 defaults <span class="k">if </span>available&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if <span class="o">[</span> -f /etc/default/postgresql-9.0 <span class="o">]</span> ; <span class="k">then</span>
+</span><span class='line'>  . /etc/default/postgresql-9.0
+</span><span class='line'><span class="k">fi</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;set -e&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;running_pid<span class="o">()</span>
+</span><span class='line'><span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Check <span class="k">if </span>a given process pid<span class="err">&#39;</span>s cmdline matches a given name&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="nv">pid</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>  <span class="nv">name</span><span class="o">=</span><span class="nv">$2</span>
+</span><span class='line'>  <span class="o">[</span> -z <span class="s2">&quot;$pid&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; <span class="k">return </span>1
+</span><span class='line'>  <span class="o">[</span> ! -d /proc/<span class="nv">$pid</span> <span class="o">]</span> &amp;amp;&amp;amp;  <span class="k">return </span>1
+</span><span class='line'>  <span class="nv">cmd</span><span class="o">=</span>&lt;code&gt;cat /proc/<span class="nv">$pid</span>/cmdline | tr <span class="s2">&quot;\000&quot;</span> <span class="s2">&quot;\n&quot;</span>|head -n 1 |cut -d : -f 1&lt;/code&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Is this the expected child?&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="o">[</span> <span class="s2">&quot;$cmd&quot;</span> !<span class="o">=</span> <span class="s2">&quot;$name&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp;  <span class="k">return </span>1
+</span><span class='line'>  <span class="k">return </span>0
+</span><span class='line'><span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;running<span class="o">()</span>
+</span><span class='line'><span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Check <span class="k">if </span>the process is running looking at /proc&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;<span class="o">(</span>works <span class="k">for </span>all users<span class="o">)</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;No pidfile, probably no daemon present&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="o">[</span> ! -f <span class="s2">&quot;$PIDFILE&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; <span class="k">return </span>1&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Obtain the pid and check it against the binary name&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="nv">pid</span><span class="o">=</span>&lt;code&gt;cat <span class="nv">$PIDFILE</span>&lt;/code&gt;
+</span><span class='line'>  running_pid <span class="nv">$pid</span> <span class="nv">$DAEMON</span> <span class="o">||</span> <span class="k">return </span>1
+</span><span class='line'>  <span class="k">return </span>0
+</span><span class='line'><span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;force_stop<span class="o">()</span> <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Forcefully <span class="nb">kill </span>the process&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="o">[</span> ! -f <span class="s2">&quot;$PIDFILE&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; <span class="k">return</span>
+</span><span class='line'><span class="k">  if </span>running ; <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;kill -15 <span class="nv">$pid</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Is it really dead?&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;<span class="o">[</span> -n <span class="s2">&quot;$DODTIME&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; sleep <span class="s2">&quot;$DODTIME&quot;</span>s
+</span><span class='line'><span class="k">if </span>running ; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">kill</span> -9 <span class="nv">$pid</span>
+</span><span class='line'>  <span class="o">[</span> -n <span class="s2">&quot;$DODTIME&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; sleep <span class="s2">&quot;$DODTIME&quot;</span>s
+</span><span class='line'>  <span class="k">if </span>running ; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;Cannot kill $LABEL (pid=$pid)!&quot;</span>
+</span><span class='line'>    <span class="nb">exit </span>1
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="k">fi</span>
+</span><span class='line'><span class="k">  </span>rm -f <span class="nv">$PIDFILE</span>
+</span><span class='line'>  <span class="k">return </span>0
+</span><span class='line'><span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;case <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>  start<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo -n <span class="s2">&quot;Starting $DESC: &quot;</span>
+</span><span class='line'>start-stop-daemon --start -b -m --quiet -c <span class="nv">$NAME</span> --pidfile <span class="nv">$PIDFILE</span> <span class="se">\</span>
+</span><span class='line'>  --exec <span class="nv">$DAEMON</span> -- <span class="nv">$DAEMON_OPTS</span>
+</span><span class='line'><span class="k">if </span>running ; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;$NAME.&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot; ERROR.&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  ;;
+</span><span class='line'>  stop<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo -n <span class="s2">&quot;Stopping $DESC: &quot;</span>
+</span><span class='line'>start-stop-daemon --stop  --quiet -c <span class="nv">$NAME</span> --pidfile <span class="nv">$PIDFILE</span> <span class="se">\</span>
+</span><span class='line'>  --exec <span class="nv">$DAEMON</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;$NAME.&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  ;;
+</span><span class='line'>  restart<span class="o">)</span>
+</span><span class='line'>  <span class="nb">echo</span> -n <span class="s2">&quot;Restarting $DESC: &quot;</span>
+</span><span class='line'>  start-stop-daemon --stop -c <span class="nv">$NAME</span> --quiet --pidfile <span class="nv">$PIDFILE</span> <span class="se">\&lt;</span>/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;--exec <span class="nv">$DAEMON</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="o">[</span> -n <span class="s2">&quot;$DODTIME&quot;</span> <span class="o">]</span> &amp;amp;&amp;amp; sleep <span class="nv">$DODTIME</span>
+</span><span class='line'>  start-stop-daemon --start -m -b -c <span class="nv">$NAME</span> --quiet --pidfile <span class="nv">$PIDFILE</span> <span class="se">\&lt;</span>/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;--exec <span class="nv">$DAEMON</span> -- <span class="nv">$DAEMON_OPTS</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="nb">echo</span> <span class="s2">&quot;$NAME.&quot;</span>
+</span><span class='line'>  ;;
+</span><span class='line'>  status<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo -n <span class="s2">&quot;$LABEL is &quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="k">if </span>running ;  <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo <span class="s2">&quot;running&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="k">else</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo <span class="s2">&quot; not running.&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="nb">exit </span>1
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  ;;
+</span><span class='line'>  initdb<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo -n <span class="s2">&quot;Init DB Dir: &quot;</span>
+</span><span class='line'>su -c <span class="s2">&quot;initdb $INITDB_OPTS&quot;</span> -m <span class="nv">$NAME</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;$NAME.&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  *<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;N<span class="o">=</span>/etc/init.d/<span class="nv">$NAME</span>-9.0
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;echo <span class="s2">&quot;Usage: $N {start|stop|restart|reload|force-reload}&quot;</span> &gt;&amp;amp;2&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo <span class="s2">&quot;Usage: $N {start|stop|restart|status|initdb}&quot;</span> &amp;gt;&amp;amp;2
+</span><span class='line'><span class="nb">exit </span>1
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  ;;
+</span><span class='line'><span class="k">esac</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;exit 0
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>postgresql-9.0.postinst</h3>
+
+<p>Скрипт выполняемый после установки.
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/bin/sh&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if <span class="o">[</span> -d /var/lib/postgresql-9.0 <span class="o">]</span>
+</span><span class='line'>  <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo <span class="s2">&quot;postgres dir enable&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="k">else</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;mkdir /var/lib/postgresql-9.0
+</span><span class='line'>chown -R postgres /var/lib/postgresql-9.0
+</span><span class='line'>su -c <span class="s1">&#39;initdb -U postgres --encoding=utf-8 --locale=ru_RU.UTF-8 /var/lib/postgresql-9.0&#39;</span> -m  postgres
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>postgresql-9.0.default</h3>
+
+<p>Файл который будет лежать по следуюшиму пути /etc/default/postgresql-9.0. Используется для изменения опций старта.
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Defaults <span class="k">for </span>postgresql-9.0.1 initscript&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;sourced by /etc/init.d/postgresql-9.0.1&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;installed at /etc/default/postgresql-9.0.1 by the maintainer scripts&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;This is a POSIX shell fragment&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;#&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Additional options that are passed to the Daemon.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;DAEMON_OPTS<span class="o">=</span><span class="s2">&quot;-D /var/lib/postgresql-9.0&quot;</span>
+</span><span class='line'><span class="nv">INITDB_OPTS</span><span class="o">=</span><span class="s2">&quot; -U postgres --encoding=utf-8 --locale=ru_RU.UTF-8 /var/db/postgresql-9.0 &quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>postgresql-9.0.preinst</h3>
+
+<p>Скрипт выполняемый до установки.
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/bin/sh -e&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;if <span class="o">[</span> <span class="s2">&quot;$(id -u postgres)&quot;</span> !<span class="o">=</span> <span class="s2">&quot;999&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>useradd -s /usr/sbin/nologin -d /nonexistent -r -u 999 postgres
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>rules</h3>
+
+<p>Этот файл отвечает за действия которые будут выполнены при создании пакета.
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/usr/bin/make -f&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;-&lt;em&gt;- makefile -&lt;/em&gt;-&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Sample debian/rules that uses debhelper.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;This file was originally written by Joey Hess and Craig Small.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;As a special exception, when this file is copied by dh-make into a&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;dh-make output file, you may use that output file without restriction.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;This special exception was added by Craig Small in version 0.37 of dh-make.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Uncomment this to turn on verbose mode.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;export <span class="nv">DH_VERBOSE</span><span class="o">=</span>1&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;CONFIGURE_EXTRA_FLAGS<span class="o">=</span> --with-libxml <span class="se">\&lt;</span>/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    --with-libxml <span class="se">\</span>
+</span><span class='line'>    --with-libxslt <span class="se">\</span>
+</span><span class='line'>    --with-openssl <span class="se">\</span>
+</span><span class='line'>    --with-ldap <span class="se">\</span>
+</span><span class='line'>    --with-pam <span class="se">\</span>
+</span><span class='line'>    --with-perl <span class="se">\</span>
+</span><span class='line'>    --with-python <span class="se">\</span>
+</span><span class='line'>    --with-tcl <span class="se">\</span>
+</span><span class='line'>    --with-ossp-uuid <span class="se">\</span>
+</span><span class='line'>    --prefix<span class="o">=</span>/usr <span class="se">\</span>
+</span><span class='line'>    --datadir<span class="o">=</span>/usr/share/postgresql
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;%:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    dh <span class="nv">$@</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Собираем документацию , контрибы и постгрес&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;override_dh_auto_build:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    make world
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;override_dh_auto_configure:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    ./configure <span class="k">${</span><span class="nv">CONFIGURE_EXTRA_FLAGS</span><span class="k">}</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Отключаем генерацию файлов с авто стартом и завершением после установки.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;override_dh_installinit:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    dh_installinit -n
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Устанавливаем все в fakeroot&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;override_dh_auto_install:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    make install-world <span class="se">\</span>
+</span><span class='line'>     <span class="nv">DESTDIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/debian/postgresql-9.0/
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Сборка пакета</h3>
+
+<p>Собственно завершающий этап.
+Сборка пакета(выполняется в каталоге с исходным кодом):
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dpkg-buildpackage -rfakeroot -j4</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>На выходе мы получим следующие файлы:</p>
+
+<ul>
+<li>postgresql-9.0_9.0.1-0ubuntu10.04.dsc</li>
+<li>postgresql-9.0_9.0.1-0ubuntu10.04.tar.gz</li>
+<li>postgresql-9.0_9.0.1-0ubuntu10.04_amd64.deb</li>
+<li>postgresql-9.0_9.0.1-0ubuntu10.04_amd64.changes</li>
+</ul>
+
+
+<p>Дальше уже ваше дело как с этим поступать.</p>
+
+<p>Ссылки которые помогут:</p>
+
+<ul>
+<li>http://www.mapbender.org/Deb_Package</li>
+<li>http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/</li>
+<li>http://www.debian.org/doc/maint-guide/</li>
+<li>http://wiki.debian.org/DebianRussian/deb-inside</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

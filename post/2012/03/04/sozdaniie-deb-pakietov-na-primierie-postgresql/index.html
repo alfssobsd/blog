@@ -1,24 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2012-03-04T19:42:25+04:00</updated>
-  <id>http://blog.alfss.net//</id>
-  <author>
-    <name><![CDATA[Sergey V. Kravchuk]]></name>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Создание deb пакетов на примере postgresql 9.0 - Треск и скрежет в моей голове</title>
+    <meta name="author" content="Sergey V. Kravchuk">
+
     
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+    <meta name="description" content="Создание Deb пакетов на примере Postgresql 9.0 Есть несколько способов создать пакет: Скачать через apt-get source postgres сырцы предыдущей версии &hellip;">
+    
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
 
-  
-  <entry>
-    <title type="html"><![CDATA[Создание deb пакетов на примере postgresql 9.0]]></title>
-    <link href="http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql/"/>
-    <updated>2012-03-04T16:09:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql</id>
-    <content type="html"><![CDATA[<p>Есть несколько способов создать пакет:</p>
+    <link href="/blog/atom.xml" rel="alternate" title="Треск и скрежет в моей голове" type="application/atom+xml">
+    <link rel="canonical" href="">
+    <link href="/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+    <script src="/javascripts/jquery.min.js"></script>
+    
+    
+
+</head>
+
+<body>
+	<header class="inner"><h1 class="left"><a href="/">Треск и скрежет в моей голове</a></h1>
+<nav class="menu left"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<div class="right">
+	<form class="search right" action="http://google.com/search" method="get">
+		<input class="left" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:blog.alfss.net/">
+	</form>
+	<div class="social right">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/ALF_SS" title="Twitter">Twitter</a>
+		
+		
+		<a class="rss" href="/blog/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</div>
+</header>
+	
+<div id="banner" class="inner">
+	<div class="container">
+		<ul class="feed"></ul>
+	</div>
+	<small><a href="http://twitter.com/ALF_SS">ALF_SS</a> @ <a href="http://twitter.com">Twitter</a></small>
+	<div class="loading">Loading...</div>
+</div>
+<script src="/javascripts/twitter.js"></script>
+<script type="text/javascript">
+	(function($){
+		$('#banner').getTwitterFeed('ALF_SS', 4, false);
+	})(jQuery);
+</script>
+
+	<div id="content" class="inner"><article class="post">
+    <h1 class="title">Создание Deb пакетов на примере Postgresql 9.0</h1>
+    <div class="entry"><p>Есть несколько способов создать пакет:</p>
 
 <ol>
 <li>Скачать через apt-get source postgres сырцы предыдущей версии и забрать каталог debian из них.</li>
@@ -676,304 +721,52 @@
 <li>http://wiki.debian.org/DebianRussian/deb-inside</li>
 </ul>
 
-]]></content>
-  </entry>
+</div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[Миграция Imap яшиков с Gmail и Yandex]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/"/>
-    <updated>2011-12-18T16:00:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail</id>
-    <content type="html"><![CDATA[<p>После поднятия Zimbra, потребовалось переносить содержимое ящиков из Gmail и Yandex.<br>
-Я уже в принципе собрался писать свою тулзу, но нашел imapsync.<br>
-Спасибо тем людям которые раньше меня озаботились этой задачей :).<br></p>
-
-<!--more-->
 
 
-<p>Файл с пользователями.<br>
-старый email:пароль:imap сервере:новый email: пароль: мой imap сервер</p>
+<time datetime="2012-03-04T16:09:00+04:00" pubdate data-updated="true">Mar 4<span>th</span>, 2012</time></div>
+        <div class="tags">
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">test</span>@example.net:examplepass1:imap.googlemail.com:test@example.net:examplepass2:localhost
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Скрипт перебирающий пользователей из файла users и синхронизирующий ящики.</p>
-
-<figure class='code'><figcaption><span> (imap_sync.sh)</span> <a href='http://blog.alfss.net//downloads/code/imap_sync.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">LOG</span><span class="o">=</span><span class="s2">&quot;imapsync.log&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in <span class="sb">`</span>cat users<span class="sb">`</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">    </span><span class="nv">login1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
-</span><span class='line'>    <span class="nv">password1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
-</span><span class='line'>    <span class="nv">host1</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $3}&#39;</span><span class="sb">`</span>
-</span><span class='line'>    <span class="nv">login2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $4}&#39;</span><span class="sb">`</span>
-</span><span class='line'>    <span class="nv">password2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $5}&#39;</span><span class="sb">`</span>
-</span><span class='line'>    <span class="nv">host2</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">i</span><span class="k">}</span> | awk -F: <span class="s1">&#39;{print $6}&#39;</span><span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;-------------------&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;LOGIN1: ${login1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;PASSWORD1: ${password1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;HOST1: ${host1}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;LOGIN2: ${login2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;PASSWORD2: ${password2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;HOST2: ${host2}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
-</span><span class='line'><span class="c">#write password</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${password1}&quot;</span> &gt; pass1
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${password2}&quot;</span> &gt; pass2
-</span><span class='line'>
-</span><span class='line'><span class="c">#run sync</span>
-</span><span class='line'>    /usr/bin/imapsync --authmech1 LOGIN --maxsize 52428800 --buffersize 52428800 --host1 <span class="k">${</span><span class="nv">host1</span><span class="k">}</span> --user1 <span class="k">${</span><span class="nv">login1</span><span class="k">}</span> --passfile1 pass1 -ssl1 -port1 993 --host2 <span class="k">${</span><span class="nv">host2</span><span class="k">}</span> --user2 <span class="k">${</span><span class="nv">login2</span><span class="k">}</span>  --passfile2 pass2 -ssl2 -port2 993 --authmech2 LOGIN  --fast --nofoldersizes --useheader Message-Id --noauthmd5 --skipsize --allow3xx --allowsizemismatch
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ps. Ящики на Gmail повторно синхронизирует без проблем и не качает лишнего. Немогу тогоже сказать про yandex :(.</p>
-]]></content>
-  </entry>
+<div class="cat">
   
-  <entry>
-    <title type="html"><![CDATA[Тюнинг настроек Zimbra 7.1]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/"/>
-    <updated>2011-12-18T14:32:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra</id>
-    <content type="html"><![CDATA[<p>У меня в наличии:</p>
-
-<p>CPU: 64 bit 2-core<br>
-Mem: 3Gb<br></p>
-
-<p>После установки нужно немного подкорректировать настройки.<br>
-Основное внимание нужно уделить Java и MySQL.<br></p>
-
-<!--more-->
-
-
-<h3>Сообшения</h3>
-
-<p>Устанавливаем максимальный размер письма 42Mb</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov ms mail.example.net zimbraMailContentMaxSize 44040192
-</span><span class='line'>zmprov ms mail.example.net zimbraFileUploadMaxSize 44040192
-</span><span class='line'>zmprov mcf zimbraFileUploadMaxSize 44040192
-</span><span class='line'>zmprov mcf zimbraMtaMaxMessageSize 44040192
-</span><span class='line'>zmprov mcf zimbraImapMaxRequestSize 44040192
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Индексация ящиков</h3>
-
-<p>Индексация писем каждые 20 сообщений (по умолчанию каждое сообщение)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov mc default zimbraBatchedIndexingSize 20
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>java</h3>
-
-<p>Устанавливаем heap 768m <br>
-Размер нового поколения - 25 % от heap<br>
-Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )<br>
-То есть мы выделяем по сути heap * 2.<br></p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_size</span><span class="o">=</span>512
-</span><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_new_size_percent</span><span class="o">=</span>25
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>mysql</h3>
-
-<p>Для 3Gb памяти с mysql все нормально и я трогать ничего не хочу.<br>
-Если потребуется что-то менять, то нужно посмотреть в сторону тюнинга INNODB.<br>
-Размер кэша в INNODB -> innodb_buffer_pool_size  (600Mb)<br></p>
-
-<p>/opt/zimbra/conf/my.cnf</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">innodb_buffer_pool_size</span>        <span class="o">=</span> 624370483
-</span><span class='line'><span class="nv">innodb_log_file_size</span>           <span class="o">=</span> 524288000
-</span><span class='line'><span class="nv">innodb_log_buffer_size</span>         <span class="o">=</span> 8388608
-</span><span class='line'>innodb_file_per_table
-</span><span class='line'>
-</span><span class='line'><span class="c"># Value is: 200 + max_connections + 2 * table_cache</span>
-</span><span class='line'><span class="nv">innodb_open_files</span>              <span class="o">=</span> 2710
-</span><span class='line'>
-</span><span class='line'><span class="nv">innodb_max_dirty_pages_pct</span>     <span class="o">=</span> 30
-</span><span class='line'><span class="nv">innodb_flush_method</span>            <span class="o">=</span> O_DIRECT
-</span><span class='line'><span class="nv">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> 0
-</span><span class='line'><span class="nv">max_allowed_packet</span>             <span class="o">=</span> 16777216
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
+    <a class='category' href='/blog/categories/debian/'>Debian</a>, <a class='category' href='/blog/categories/packages/'>Packages</a>, <a class='category' href='/blog/categories/postgresql/'>PostgreSQL</a>
   
-  <entry>
-    <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/"/>
-    <updated>2011-12-14T01:25:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting</id>
-    <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
+</div>
 
-<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
-
-<h3>Собственно приступим к настройке. (&#8220;Смерть спаму!&#8221;)</h3>
-
-<!--more-->
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>su - zimbra
-</span><span class='line'>zmprov ms mail.example.net +zimbraServiceEnabled cbpolicyd
-</span><span class='line'>zmlocalconfig -e postfix_enable_smtpd_policyd=yes
-</span><span class='line'>zmprov mcf +zimbraMtaRestriction "check_policy_service inet:127.0.0.1:10031"
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_level=4
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_detail=modules,tracking,policies
-</span><span class='line'>zmlocalconfig -e cbpolicyd_module_accesscontrol=1 cbpolicyd_module_checkhelo=1 \
-</span><span class='line'>  cbpolicyd_module_checkspf=1 cbpolicyd_module_greylisting=1 cbpolicyd_module_quotas=1
-</span><span class='line'>zmmtactl restart
-</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure>
+</div>
+        
+    </div>
+</article>
+<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4eb4a0c47196e907"></script>
+</div>
+</div>
+	<footer class="inner">Copyright &copy; 2012 Треск и скрежет в моей голове</footer>
+	<script src="/javascripts/jquery.easing.1.3.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script src="/javascripts/slash.js"></script>
 
 
-<p>Да, это все, что требовалось для запуска демона и скрещивания его с postfix. :)</p>
-
-<h3>Настраиваем веб морду.</h3>
-
-<p>Добавим в конец  /opt/zimbra/conf/httpd.conf  следующие строчки:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alias /policyd /opt/zimbra/cbpolicyd/share/webui/
-</span><span class='line'>
-</span><span class='line'>&lt;Directory /opt/zimbra/cbpolicyd/share/webui/>
-</span><span class='line'>    Order Deny,Allow
-</span><span class='line'>    Deny from all
-</span><span class='line'>    Allow from 192.168.1.0/255.255.255.0
-</span><span class='line'>&lt;/Directory></span></code></pre></td></tr></table></div></figure>
 
 
-<p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Перезапустим апача который идет в комплекте с zimbra.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Теперь панель управления policyd доступна по адресу  http://mail.example.net:7780/policyd/index.php</p>
-
-<p>Правда панель управления оставляет желать лучшего вплане UI, но это терпимо.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Кодировка СКУД Sphinx + Rails]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
-    <updated>2011-12-13T01:21:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
-    <content type="html"><![CDATA[<p>Волю случая пришлось залезть в БД данного СКУД.
-Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
-Rails на это реагирует невнятным бормотанием:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invalid</span> <span class="n">multibyte</span> <span class="n">char</span> <span class="p">(</span><span class="no">UTF</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
-</span><span class='line'><span class="n">syntax</span> <span class="n">error</span><span class="p">,</span> <span class="n">unexpected</span> <span class="vg">$end</span><span class="p">,</span> <span class="n">expecting</span> <span class="n">keyword_end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Костыль был найден почти сразу :)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@Parsonal</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Но правильное решение, это изменить кодировку таблиц.</p>
-
-<figure class='code'><figcaption><span>change_codepage_personal  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="ss">`personal`</span> <span class="k">convert</span> <span class="k">to</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span> <span class="k">collate</span> <span class="n">utf8_general_ci</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ps. Письмо я товарищам написал, надеюсь что в новых релизах исправят.</p>
-]]></content>
-  </entry>
-  
-</feed>
+</body>
+</html>
