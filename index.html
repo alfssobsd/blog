@@ -7,7 +7,7 @@
     <meta name="author" content="Sergey V. Kravchuk">
 
     
-    <meta name="description" content="Создание Deb пакетов на примере Postgresql 9.0 Есть несколько способов создать пакет: Скачать через apt-get source postgres сырцы предыдущей версии &hellip;">
+    <meta name="description" content="Ubuntu, установка Java 1.7 На данный момент нету пакетов java 1.7.03 для Ubuntu, поэтому я решил поставить из оф. архива. Скачиваем jdk с сайта &hellip;">
     
     <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
 
@@ -62,6 +62,82 @@
 </script>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+    <h1 class="title"><a href="/post/2012/03/08/ubuntu-install-java7/">Ubuntu, установка Java 1.7</a></h1>
+    <div class="entry">
+        <p>На данный момент нету пакетов java 1.7.03 для Ubuntu, поэтому я решил поставить из оф. архива.</p>
+
+<p>Скачиваем jdk  с сайта Oracle http://www.oracle.com/technetwork/java/javase/downloads/index.html .</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Распаковываем архив и копируем в /usr/lib/jvm/java-7-oracle</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>tar zxf jdk-7u3-linux-x64.tar.gz
+</span><span class='line'>mkdir -p  /usr/lib/jvm
+</span><span class='line'>mv jdk1.7.0_03 /usr/lib/jvm/java-7-oracle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Прописываем как java по умолчанию</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 3
+</span><span class='line'>sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 3
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>java -version
+</span><span class='line'>java version <span class="s2">&quot;1.7.0_03&quot;</span>
+</span><span class='line'>Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_03-b04<span class="o">)</span>
+</span><span class='line'>Java HotSpot<span class="o">(</span>TM<span class="o">)</span> Client VM <span class="o">(</span>build 22.1-b02, mixed mode<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+        
+        
+    </div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-08T14:14:00+04:00" pubdate data-updated="true">Mar 8<span>th</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</div>
+
+</div>
+        
+    </div>
+</article>
 
 
     <article class="post">
