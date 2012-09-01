@@ -7,7 +7,7 @@
     <meta name="author" content="Sergey V. Kravchuk">
 
     
-    <meta name="description" content="Ubuntu, установка Java 1.7 На данный момент нету пакетов java 1.7.03 для Ubuntu, поэтому я решил поставить из оф. архива. Скачиваем jdk с сайта &hellip;">
+    <meta name="description" content="Валидация SSL ключа и сертификата Я столкнулся с ситуацией когда есть приватный ключ и несколько сертификатов, при этом непонятно к какому из &hellip;">
     
     <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
 
@@ -62,6 +62,55 @@
 </script>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+    <h1 class="title"><a href="/post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata/">Валидация SSL ключа и сертификата</a></h1>
+    <div class="entry">
+        <p>Я столкнулся с ситуацией когда есть приватный ключ и несколько сертификатов, при этом непонятно к какому из сертификатов относится ключ.</p>
+
+<p>Информация о md5 сумме поможет разобраться в данной ситуации:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>openssl x509 -noout -modulus -in certificate.crt | openssl md5
+</span><span class='line'>openssl rsa -noout -modulus -in privateKey.key | openssl md5
+</span><span class='line'>openssl req -noout -modulus -in CSR.csr | openssl md5
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+        
+        
+    </div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-01T21:41:00+04:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/openssl/'>openssl</a>, <a class='category' href='/blog/categories/ssl/'>ssl</a>
+  
+</div>
+
+</div>
+        
+    </div>
+</article>
 
 
     <article class="post">
