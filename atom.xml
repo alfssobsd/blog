@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-09-01T21:44:45+04:00</updated>
+  <updated>2012-09-02T18:58:09+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Сохранение всей почты в один ящик Postfix + Dovecot]]></title>
+    <link href="http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/"/>
+    <updated>2012-09-02T18:39:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot</id>
+    <content type="html"><![CDATA[<p>Мне потребовалось реализовать сохранение всей исходящей и входящей почты в один ящик на тестовом сервер.
+Как SMTP  я выбрал Postfix за его простоту и Dovecot как imap сервер и сервер доставки.</p>
+
+<p>Описывать как все ставить с нуля я не буду, опишу лишь основные моменты.</p>
+
+<h3>Настройка Postfix</h3>
+
+<!--more-->
+
+
+<p>В master.cf описываем наш новый сервис:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dovecot  unix  -       n       n       -       -       pipe
+</span><span class='line'>   <span class="nv">flags</span><span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>webuser <span class="nv">argv</span><span class="o">=</span>/usr/lib/dovecot/deliver -d webuser
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Вся почта будет складываться в каталог пользователя webuser.</p>
+
+<p>Устанавливаем службу dovecot(описанную выше) как дефолтную для доставки.</p>
+
+<p>main.cf:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">default_transport</span> <span class="o">=</span> dovecot
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Теперь переходим к настройке dovecot.</h3>
+
+<p>Описываем как и где смотреть пользователей (я выбрал хранение в файле).</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>passdb <span class="o">{</span>
+</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
+</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">scheme</span><span class="o">=</span>plain-md5 <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>userdb <span class="o">{</span>
+</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
+</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Будем хранить почту в формате Maildir. Указываем директорию и формат хранения.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">mail_location</span> <span class="o">=</span> maildir:/srv/mail/%n
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>/srv/mail пренадлежит webuser(uid 2000:gid 2000)</em></p>
+
+<p>Заключительный шаг. Описываем нашего пользователя (webuser) в файле /etc/dovecot/users</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>webuser:<span class="o">{</span>plain<span class="o">}</span>jagsjhdgajhsd:2000:2000::/home/webuser
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>webuser - имя пользователя</li>
+<li>{plain}jagsjhdgajhsd - наш пароль в открытом виде</li>
+<li>цыфры это uid и gid.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Валидация SSL ключа и сертификата]]></title>
