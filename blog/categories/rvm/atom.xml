@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: rails | Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//blog/categories/rails/atom.xml" rel="self"/>
+  <title><![CDATA[Category: rvm | Треск и скрежет в моей голове]]></title>
+  <link href="http://blog.alfss.net//blog/categories/rvm/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
   <updated>2012-10-29T18:59:19+04:00</updated>
   <id>http://blog.alfss.net//</id>

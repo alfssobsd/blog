@@ -37,11 +37,27 @@
         <lastmod>2012-09-02T18:57:55+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://blog.alfss.net//post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/
+        </loc>
+        <lastmod>2012-10-29T18:58:16+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/</loc>
+        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/
+        </loc>
+        <lastmod>2012-10-29T17:35:43+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.alfss.net//blog/archives/</loc>
-        <lastmod>2012-09-02T18:57:55+04:00</lastmod>
+        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//</loc>
-        <lastmod>2012-09-02T18:57:55+04:00</lastmod>
+        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
     </url>
 </urlset>

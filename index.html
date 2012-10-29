@@ -7,7 +7,8 @@
     <meta name="author" content="Sergey V. Kravchuk">
 
     
-    <meta name="description" content="Сохранение всей почты в один ящик Postfix + Dovecot Мне потребовалось реализовать сохранение всей исходящей и входящей почты в один ящик на тестовом &hellip;">
+    <meta name="description" content="Установка PIL в Virtualenv (Ubuntu 12.04 LTS X64) У PIL есть проблема с поисками бибблиотек на 64х битных системах.
+Простой хак для решения данной &hellip;">
     
     <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
 
@@ -62,6 +63,153 @@
 </script>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+    <h1 class="title"><a href="/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/">Установка PIL в Virtualenv (Ubuntu 12.04 LTS X64)</a></h1>
+    <div class="entry">
+        <p>У PIL есть проблема с поисками бибблиотек на 64х битных системах.
+Простой хак для решения данной проблемы на ubuntu 12.04 LTS x 64</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib</span></code></pre></td></tr></table></div></figure>
+
+
+<p>После этого можно спокойно ставить PIL в virtualenv.</p>
+
+        
+        
+    </div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-26T22:12:00+04:00" pubdate data-updated="true">Oct 26<span>th</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/pil/'>PIL</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+  
+</div>
+
+</div>
+        
+        <div class="comments"><a href="/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/#disqus_thread">Comments</a></div>
+        
+    </div>
+</article>
+
+
+    <article class="post">
+    <h1 class="title"><a href="/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/">Установка Redmine (Ubuntu 12.04 LTS)</a></h1>
+    <div class="entry">
+        <p>Я считаю что ставить rails приложения лучше всего через RVM.
+Ниже описаны действия для развертывания redmine на только что установленной системе.</p>
+
+<h3>Подготавливаем окружение</h3>
+
+<p>Устанавливаем необходимые пакеты.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install imagemagick build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion pkg-config libpq-dev build-essential bison openssl libreadline5 libreadline-dev curl git-core zlib1g zlib1g-dev libssl-dev vim libsqlite3-0 libsqlite3-dev sqlite3 libreadline-dev libxml2-dev git-core subversion autoconf curl git-core  libmagickcore-dev libmagickwand-dev</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+        
+        <a href="/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/" class="more-link">Read on &rarr;</a>
+    </div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-26T22:10:00+04:00" pubdate data-updated="true">Oct 26<span>th</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rvm/'>rvm</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+  
+</div>
+
+</div>
+        
+        <div class="comments"><a href="/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/#disqus_thread">Comments</a></div>
+        
+    </div>
+</article>
+
+
+    <article class="post">
+    <h1 class="title"><a href="/post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/">OpenVPN + аутентификация по логину и паролю</a></h1>
+    <div class="entry">
+        <p>Мне потребовался доступ к внутренней сети и я решил использовать openvpn для этих целей.
+Поскольку LDAP на этот момент еще нету, аутентификация будет на основе файла с паролями в md5.</p>
+
+<h3>Устанавливаем необходимые пакеты</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+        
+        <a href="/post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/" class="more-link">Read on &rarr;</a>
+    </div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-26T22:09:00+04:00" pubdate data-updated="true">Oct 26<span>th</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/perl/'>perl</a>, <a class='category' href='/blog/categories/vpn/'>vpn</a>
+  
+</div>
+
+</div>
+        
+        <div class="comments"><a href="/post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/#disqus_thread">Comments</a></div>
+        
+    </div>
+</article>
 
 
     <article class="post">
@@ -410,72 +558,10 @@ Mem: 3Gb<br></p>
     </div>
 </article>
 
-
-    <article class="post">
-    <h1 class="title"><a href="/post/2011/12/13/kodirovka-skud-sphinx-plus-rails/">Кодировка СКУД Sphinx + Rails</a></h1>
-    <div class="entry">
-        <p>Волю случая пришлось залезть в БД данного СКУД.
-Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
-Rails на это реагирует невнятным бормотанием:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invalid</span> <span class="n">multibyte</span> <span class="n">char</span> <span class="p">(</span><span class="no">UTF</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
-</span><span class='line'><span class="n">syntax</span> <span class="n">error</span><span class="p">,</span> <span class="n">unexpected</span> <span class="vg">$end</span><span class="p">,</span> <span class="n">expecting</span> <span class="n">keyword_end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Костыль был найден почти сразу :)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@Parsonal</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Но правильное решение, это изменить кодировку таблиц.</p>
-
-<figure class='code'><figcaption><span>change_codepage_personal  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="ss">`personal`</span> <span class="k">convert</span> <span class="k">to</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span> <span class="k">collate</span> <span class="n">utf8_general_ci</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ps. Письмо я товарищам написал, надеюсь что в новых релизах исправят.</p>
-
-        
-        
-    </div>
-    <div class="meta">
-        <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-13T01:21:00+04:00" pubdate data-updated="true">Dec 13<span>th</span>, 2011</time></div>
-        <div class="tags">
-
-<div class="cat">
-  
-    <a class='category' href='/blog/categories/acs-sphinx/'>ACS sphinx</a>, <a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
-  
-</div>
-
-</div>
-        
-        <div class="comments"><a href="/post/2011/12/13/kodirovka-skud-sphinx-plus-rails/#disqus_thread">Comments</a></div>
-        
-    </div>
-</article>
-
 <nav id="pagenavi">
     
+    
+        <a href="/blog/page/2/" class="next">Next</a>
     
     <a href="/blog/archives" class="center">Blog Archives</a>
 </nav></div>

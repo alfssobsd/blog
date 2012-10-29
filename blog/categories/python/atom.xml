@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | Треск и скрежет в моей голове]]></title>
+  <link href="http://blog.alfss.net//blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net//"/>
+  <updated>2012-10-29T18:59:19+04:00</updated>
+  <id>http://blog.alfss.net//</id>
+  <author>
+    <name><![CDATA[Sergey V. Kravchuk]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Установка PIL в virtualenv (Ubuntu 12.04 LTS x64)]]></title>
+    <link href="http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/"/>
+    <updated>2012-10-26T22:12:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64</id>
+    <content type="html"><![CDATA[<p>У PIL есть проблема с поисками бибблиотек на 64х битных системах.
+Простой хак для решения данной проблемы на ubuntu 12.04 LTS x 64</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>После этого можно спокойно ставить PIL в virtualenv.</p>
+]]></content>
+  </entry>
+  
+</feed>
