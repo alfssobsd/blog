@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-11-06T03:35:20+04:00</updated>
+  <updated>2012-11-06T03:37:45+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -21,11 +21,12 @@
     <content type="html"><![CDATA[<p>У PIL есть проблема с поисками бибблиотек на 64х битных системах.
 Простой хак для решения данной проблемы на ubuntu 12.04 LTS x 64</p>
 
-<p>{% codeblock %}
-ln -snf /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
-ln -snf /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
-ln -snf /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
+</span><span class='line'>ln -snf /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>После этого можно спокойно ставить PIL в virtualenv.</p>
 ]]></content>
@@ -42,45 +43,52 @@ ln -snf /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
 <h3>Подготавливаем окружение</h3>
 
 <p>Устанавливаем необходимые пакеты.
-{% codeblock %}
-sudo apt-get install imagemagick build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion pkg-config libpq-dev build-essential bison openssl libreadline5 libreadline-dev curl git-core zlib1g zlib1g-dev libssl-dev vim libsqlite3-0 libsqlite3-dev sqlite3 libreadline-dev libxml2-dev git-core subversion autoconf curl git-core  libmagickcore-dev libmagickwand-dev
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install imagemagick build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion pkg-config libpq-dev build-essential bison openssl libreadline5 libreadline-dev curl git-core zlib1g zlib1g-dev libssl-dev vim libsqlite3-0 libsqlite3-dev sqlite3 libreadline-dev libxml2-dev git-core subversion autoconf curl git-core  libmagickcore-dev libmagickwand-dev</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--more-->
 
 
 <p>Создаем пользователя для запуска приложения.
-{% codeblock %}
-sudo useradd -u 2001 -m -s/bin/bash rails
-passwd rails
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo useradd -u 2001 -m -s/bin/bash rails
+</span><span class='line'>passwd rails</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Устанавливаем rvm.
-{% codeblock %}
-ssh rails@localhost
-echo insecure >> ~/.curlrc
-bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
-rvm install 1.9.2-head
-exit
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh rails@localhost
+</span><span class='line'>echo insecure >> ~/.curlrc
+</span><span class='line'>bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+</span><span class='line'>rvm install 1.9.2-head
+</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Устанавливаем redmine</h3>
 
 <p>Я предпочитаю хранить все rails приложения в директории /spool/rails.
-{% codeblock %}
-sudo mkdir  -p /spool/rails
-cd /spool/rails
-sudo svn co http://redmine.rubyforge.org/svn/branches/2.0-stable redmine-2.0
-sudo chown -R rails:rails  /spool/rails/redmine-2.0
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo mkdir  -p /spool/rails
+</span><span class='line'>cd /spool/rails
+</span><span class='line'>sudo svn co http://redmine.rubyforge.org/svn/branches/2.0-stable redmine-2.0
+</span><span class='line'>sudo chown -R rails:rails  /spool/rails/redmine-2.0</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>{% codeblock %}
-ssh rails@localhost
-cd /spool/rails/redmine-2.0
-bundle install --without development test
-mkdir -p /spool/rails/redmine-2.0/tmp/pids/
-exit
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh rails@localhost
+</span><span class='line'>cd /spool/rails/redmine-2.0
+</span><span class='line'>bundle install --without development test
+</span><span class='line'>mkdir -p /spool/rails/redmine-2.0/tmp/pids/
+</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Настраиваем redmine и unicorn</h3>
 
@@ -88,161 +96,289 @@ exit
 Unicorn будте использоватся как сервер приложений.</p>
 
 <p>Конфиг unicorn (/spool/rails/redmine-2.0/config/unicorn.rb)
-{% codeblock %}
-worker_processes 1
-listen "127.0.0.1:8081", :tcp_nopush => true
-timeout 90
-pid "/spool/rails/redmine-2.0/tmp/pids/unicorn.pid"
-working_directory "/spool/rails/redmine-2.0"
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>worker_processes 1
+</span><span class='line'>listen "127.0.0.1:8081", :tcp_nopush => true
+</span><span class='line'>timeout 90
+</span><span class='line'>pid "/spool/rails/redmine-2.0/tmp/pids/unicorn.pid"
+</span><span class='line'>working_directory "/spool/rails/redmine-2.0"</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Прописываем доступы к БД (/spool/rails/redmine-2.0/config/database.yml)
-{% codeblock %}
-production:
-  adapter: postgresql
-  database: redmine
-  host: db.server.ru
-  username: redmine
-  password: "password"
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>production:
+</span><span class='line'>  adapter: postgresql
+</span><span class='line'>  database: redmine
+</span><span class='line'>  host: db.server.ru
+</span><span class='line'>  username: redmine
+</span><span class='line'>  password: "password"</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Стартовый скрипт unicorn /etc/init.d/unicorn_redmine
-{% codeblock lang:bash %}</p>
-
-<h1>!/bin/bash</h1>
-
-<h3>BEGIN INIT INFO</h3>
-
-<h1>Provides:          redmine</h1>
-
-<h1>Required-Start:    $all</h1>
-
-<h1>Required-Stop:     $network $local_fs $syslog</h1>
-
-<h1>Default-Start:     2 3 4 5</h1>
-
-<h1>Default-Stop:      0 1 6</h1>
-
-<h1>Short-Description: Start the APPLICATION unicorns at boot</h1>
-
-<h1>Description:       Enable APPLICATION at boot time.</h1>
-
-<h3>END INIT INFO</h3>
-
-<h1></h1>
-
-<h1>Use this as a basis for your own Unicorn init script.</h1>
-
-<h1>Change APPLICATION to match your app.</h1>
-
-<h1>Make sure that all paths are correct.</h1>
-
-<p>set -u
-set -e</p>
-
-<h1>Change these to match your app:</h1>
-
-<p>APP_NAME="redmine"
-APP_ROOT="/spool/rails/redmine-2.0"
-PID="/spool/rails/redmine-2.0/tmp/pids/unicorn.pid"
-ENV=production</p>
-
-<p>GEM_HOME="/home/rails/.rvm/gems/ruby-1.9.2-head"</p>
-
-<p>UNICORN_OPTS="-D -E $ENV -c $APP_ROOT/config/unicorn.rb"</p>
-
-<p>SET_PATH="cd $APP_ROOT; rvm use 1.9.2-head; export GEM_HOME=$GEM_HOME"
-CMD="$SET_PATH; /home/rails/.rvm/bin/rvm-shell 'default' -c 'bundle exec unicorn $UNICORN_OPTS'"</p>
-
-<p>old_pid="$PID.oldbin"</p>
-
-<p>cd $APP_ROOT || exit 1</p>
-
-<p>sig () {</p>
-
-<pre><code>test -s "$PID" &amp;&amp; kill -$1 `cat $PID`
-</code></pre>
-
-<p>}</p>
-
-<p>oldsig () {</p>
-
-<pre><code>test -s $old_pid &amp;&amp; kill -$1 `cat $old_pid`
-</code></pre>
-
-<p>}</p>
-
-<p>case ${1-help} in
-start)</p>
-
-<pre><code>sig 0 &amp;&amp; echo &gt;&amp;2 "Already running" &amp;&amp; exit 0
-su - rails -c "$CMD"
-;;
-</code></pre>
-
-<p>stop)</p>
-
-<pre><code>sig QUIT &amp;&amp; exit 0
-echo &gt;&amp;2 "Not running"
-;;
-</code></pre>
-
-<p>force-stop)</p>
-
-<pre><code>sig TERM &amp;&amp; exit 0
-echo &gt;&amp;2 "Not running"
-;;
-</code></pre>
-
-<p>restart|reload)</p>
-
-<pre><code>sig HUP &amp;&amp; echo reloaded OK &amp;&amp; exit 0
-echo &gt;&amp;2 "Couldn't reload, starting '$CMD' instead"
-su - rails -c "$CMD"
-;;
-</code></pre>
-
-<p>upgrade)</p>
-
-<pre><code>sig USR2 &amp;&amp; exit 0
-echo &gt;&amp;2 "Couldn't upgrade, starting '$CMD' instead"
-su - rails -c "$CMD"
-;;
-</code></pre>
-
-<p>rotate)</p>
-
-<pre><code>sig USR1 &amp;&amp; echo rotated logs OK &amp;&amp; exit 0
-echo &gt;&amp;2 "Couldn't rotate logs" &amp;&amp; exit 1
-;;
-</code></pre>
-
-<p>*)</p>
-
-<pre><code>echo &gt;&amp;2 "Usage: $0 &lt;start|stop|restart|upgrade|rotate|force-stop&gt;"
-exit 1
-;;
-</code></pre>
-
-<p>esac
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/bin/bash&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h3&gt;BEGIN INIT INFO&lt;/h3&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Provides:          redmine&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Required-Start:    <span class="nv">$all</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Required-Stop:     <span class="nv">$network</span> <span class="nv">$local_fs</span> <span class="nv">$syslog</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Default-Start:     2 3 4 5&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Default-Stop:      0 1 6&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Short-Description: Start the APPLICATION unicorns at boot&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Description:       Enable APPLICATION at boot time.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h3&gt;END INIT INFO&lt;/h3&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Use this as a basis <span class="k">for </span>your own Unicorn init script.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Change APPLICATION to match your app.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Make sure that all paths are correct.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;set -u
+</span><span class='line'><span class="nb">set</span> -e&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Change these to match your app:&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;APP_NAME<span class="o">=</span><span class="s2">&quot;redmine&quot;</span>
+</span><span class='line'><span class="nv">APP_ROOT</span><span class="o">=</span><span class="s2">&quot;/spool/rails/redmine-2.0&quot;</span>
+</span><span class='line'><span class="nv">PID</span><span class="o">=</span><span class="s2">&quot;/spool/rails/redmine-2.0/tmp/pids/unicorn.pid&quot;</span>
+</span><span class='line'><span class="nv">ENV</span><span class="o">=</span>production&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;GEM_HOME<span class="o">=</span><span class="s2">&quot;/home/rails/.rvm/gems/ruby-1.9.2-head&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;UNICORN_OPTS<span class="o">=</span><span class="s2">&quot;-D -E $ENV -c $APP_ROOT/config/unicorn.rb&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;SET_PATH<span class="o">=</span><span class="s2">&quot;cd $APP_ROOT; rvm use 1.9.2-head; export GEM_HOME=$GEM_HOME&quot;</span>
+</span><span class='line'><span class="nv">CMD</span><span class="o">=</span><span class="s2">&quot;$SET_PATH; /home/rails/.rvm/bin/rvm-shell &#39;default&#39; -c &#39;bundle exec unicorn $UNICORN_OPTS&#39;&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;old_pid<span class="o">=</span><span class="s2">&quot;$PID.oldbin&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd <span class="nv">$APP_ROOT</span> <span class="o">||</span> <span class="nb">exit </span>1&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;sig <span class="o">()</span> <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;test -s <span class="s2">&quot;$PID&quot;</span> &amp;amp;&amp;amp; <span class="nb">kill</span> -<span class="nv">$1</span> <span class="sb">`</span>cat <span class="nv">$PID</span><span class="sb">`</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;oldsig <span class="o">()</span> <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;test -s <span class="nv">$old_pid</span> &amp;amp;&amp;amp; <span class="nb">kill</span> -<span class="nv">$1</span> <span class="sb">`</span>cat <span class="nv">$old_pid</span><span class="sb">`</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;case <span class="k">${</span><span class="nv">1</span><span class="p">-help</span><span class="k">}</span> in
+</span><span class='line'>start<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig 0 &amp;amp;&amp;amp; <span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Already running&quot;</span> &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'>su - rails -c <span class="s2">&quot;$CMD&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;stop<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig QUIT &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'><span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Not running&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;force-stop<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig TERM &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'><span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Not running&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;restart|reload<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig HUP &amp;amp;&amp;amp; <span class="nb">echo </span>reloaded OK &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'><span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Couldn&#39;t reload, starting &#39;$CMD&#39; instead&quot;</span>
+</span><span class='line'>su - rails -c <span class="s2">&quot;$CMD&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;upgrade<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig USR2 &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'><span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Couldn&#39;t upgrade, starting &#39;$CMD&#39; instead&quot;</span>
+</span><span class='line'>su - rails -c <span class="s2">&quot;$CMD&quot;</span>
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;rotate<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sig USR1 &amp;amp;&amp;amp; <span class="nb">echo </span>rotated logs OK &amp;amp;&amp;amp; <span class="nb">exit </span>0
+</span><span class='line'><span class="nb">echo</span> &amp;gt;&amp;amp;2 <span class="s2">&quot;Couldn&#39;t rotate logs&quot;</span> &amp;amp;&amp;amp; <span class="nb">exit </span>1
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;*<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;echo &amp;gt;&amp;amp;2 <span class="s2">&quot;Usage: $0 &amp;lt;start|stop|restart|upgrade|rotate|force-stop&amp;gt;&quot;</span>
+</span><span class='line'><span class="nb">exit </span>1
+</span><span class='line'>;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;esac
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Инициализируем session, БД и вносим в авто-старт</h3>
 
 <p>Генерируем ключ для session и БД.
-{% codeblock %}
-ssh rails@localhost
-cd /spool/rails/redmine-2.0
-rake generate_secret_token
-RAILS_ENV=production rake db:migrate
-exit
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh rails@localhost
+</span><span class='line'>cd /spool/rails/redmine-2.0
+</span><span class='line'>rake generate_secret_token
+</span><span class='line'>RAILS_ENV=production rake db:migrate
+</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Добавляем в автостарт unicorn и запускаем.
-{% codeblock %}
-sudo update-rc.d unicorn_redmine defaults
-sudo /etc/init.d/unicorn_redmine start
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo update-rc.d unicorn_redmine defaults
+</span><span class='line'>sudo /etc/init.d/unicorn_redmine start</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -256,9 +392,8 @@ sudo /etc/init.d/unicorn_redmine start
 
 <h3>Устанавливаем необходимые пакеты</h3>
 
-<p>{% codeblock %}
-sudo apt-get install openvpn
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--more-->
 
@@ -266,16 +401,16 @@ sudo apt-get install openvpn
 <h3>Создание сертификатов</h3>
 
 <p>Идем в /usr/share/doc/openvpn/examples/easy-rsa/2.0/ и выполняем следующие действия.
-{% codeblock %}
-sh
-. ./vars
- ./clean-all
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh
+</span><span class='line'>. ./vars
+</span><span class='line'> ./clean-all</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Создаем CA сертификат.
-{% codeblock %}
-./build-ca
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./build-ca</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <ul>
 <li>Country Name – 2х буквенный код страны (RU)</li>
@@ -289,28 +424,34 @@ sh
 
 
 <p>Создаем X.509 сертификатов для сервера.
-{% codeblock %}
-./build-key-server server
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./build-key-server server</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Создайте ключ Диффи Хельман.
-{% codeblock %}
-openvpn --genkey --secret ta.key
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>openvpn --genkey --secret ta.key</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Настройка OpenVPN</h3>
 
 <p>Создадим директории для файлов.
-{% codeblock %}</p>
-
-<h1>ключи и сертификаты</h1>
-
-<p>mkdir /etc/openvpn/keys</p>
-
-<h1>скрипт для авторизации</h1>
-
-<p>mkdir /etc/openvpn/auth
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>ключи и сертификаты&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mkdir /etc/openvpn/keys&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>скрипт для авторизации&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mkdir /etc/openvpn/auth</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>В директорию /etc/openvpn/keys должны быть скопированы следующие файлы из /usr/share/doc/openvpn/examples/easy-rsa/2.0:</p>
 
@@ -325,123 +466,231 @@ openvpn --genkey --secret ta.key
 
 <p>Конфиг сервера /etc/openvpn/openvpn.conf.
 Опции описывать не буду ибо это просто посмотреть в документации.
-{% codeblock %}
-script-security 3
-tmp-dir /tmp
-port 1194
-proto tcp
-dev tun0
-ca /etc/openvpn/keys/ca.crt
-cert /etc/openvpn/keys/server.crt
-client-cert-not-required
-key /etc/openvpn/keys/server.key
-dh /etc/openvpn/keys/dh1024.pem
-server 10.8.0.0 255.255.255.0
-push "route 192.168.0.0 255.255.255.0"
-push "dhcp-option DNS 192.168.0.1"
-tls-server
-tls-auth /etc/openvpn/keys/ta.key 0
-tls-timeout 120
-auth MD5
-cipher BF-CBC
-keepalive 10 120
-comp-lzo
-max-clients 100
-user nobody
-group nogroup
-persist-key
-persist-tun
-status /var/log/openvpn/openvpn-status.log
-log /var/log/openvpn/openvpn.log
-verb 4
-auth-user-pass-verify /etc/openvpn/auth/auth-static-file.pl via-file
-route 10.8.0.0 255.255.255.0
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script-security 3
+</span><span class='line'>tmp-dir /tmp
+</span><span class='line'>port 1194
+</span><span class='line'>proto tcp
+</span><span class='line'>dev tun0
+</span><span class='line'>ca /etc/openvpn/keys/ca.crt
+</span><span class='line'>cert /etc/openvpn/keys/server.crt
+</span><span class='line'>client-cert-not-required
+</span><span class='line'>key /etc/openvpn/keys/server.key
+</span><span class='line'>dh /etc/openvpn/keys/dh1024.pem
+</span><span class='line'>server 10.8.0.0 255.255.255.0
+</span><span class='line'>push "route 192.168.0.0 255.255.255.0"
+</span><span class='line'>push "dhcp-option DNS 192.168.0.1"
+</span><span class='line'>tls-server
+</span><span class='line'>tls-auth /etc/openvpn/keys/ta.key 0
+</span><span class='line'>tls-timeout 120
+</span><span class='line'>auth MD5
+</span><span class='line'>cipher BF-CBC
+</span><span class='line'>keepalive 10 120
+</span><span class='line'>comp-lzo
+</span><span class='line'>max-clients 100
+</span><span class='line'>user nobody
+</span><span class='line'>group nogroup
+</span><span class='line'>persist-key
+</span><span class='line'>persist-tun
+</span><span class='line'>status /var/log/openvpn/openvpn-status.log
+</span><span class='line'>log /var/log/openvpn/openvpn.log
+</span><span class='line'>verb 4
+</span><span class='line'>auth-user-pass-verify /etc/openvpn/auth/auth-static-file.pl via-file
+</span><span class='line'>route 10.8.0.0 255.255.255.0</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Скрипт авторизации.</h3>
 
 <p>/etc/openvpn/auth/auth-static-file.pl:
-{% codeblock lang:perl %}</p>
-
-<h1>!/usr/bin/perl</h1>
-
-<p>#</p>
-
-<h1>$Id$</h1>
-
-<p>#</p>
-
-<h1>Кравчук Сергей, <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#97;&#108;&#x66;&#x73;&#x73;&#46;&#111;&#98;&#x73;&#x64;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#97;&#x6c;&#102;&#x73;&#x73;&#x2e;&#x6f;&#98;&#115;&#100;&#x40;&#x67;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></h1>
-
-<p>#</p>
-
-<p>use strict;
-use warnings;
-use Digest::MD5  qw(md5 md5_hex md5_base64);
-use version; our $VERSION = qv(0.01);</p>
-
-<p>my $password_file = '/etc/openvpn/auth/user_password.txt';
-my $ARG = undef;
-if ( $ARG = shift @ARGV ) {</p>
-
-<pre><code>if ( !open( UPFILE, "&lt;$ARG" ) ) {
-    print "Could not open username/password tmp file: $ARG\n";
-    exit 1;
-}
-</code></pre>
-
-<p>}
-else {</p>
-
-<pre><code>print "No username/password file specified on command line\n";
-exit 1;
-</code></pre>
-
-<p>}</p>
-
-<p>my $username = <UPFILE>;
-my $password = <UPFILE>;</p>
-
-<p>if ( !$username || !$password ) {</p>
-
-<pre><code>print "Username/password not found in tmp file: $ARG\n";
-exit 1;
-</code></pre>
-
-<p>}</p>
-
-<p>chomp $username;
-chomp $password;</p>
-
-<p>close(UPFILE);</p>
-
-<p>if ( !open( USER_PASSWORD, "&lt;$password_file" ) ) {</p>
-
-<pre><code>print "Could not open username/password db file: $ARG\n";
-exit 1;
-</code></pre>
-
-<p>}
-foreach my $line (<USER_PASSWORD>) {</p>
-
-<pre><code>chomp($line);
-my ( $read_user, $read_password ) = split(/:/, $line);
-if ( $read_user eq $username ) {
-    my $hex_password = md5_hex $password;
-    if ( $hex_password eq $read_password) {
-        close(USER_PASSWORD);
-        exit 0;
-    }
-    exit 1;
-}
-</code></pre>
-
-<p>}</p>
-
-<p>close(USER_PASSWORD);</p>
-
-<p>exit 1;
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="o">!</span><span class="sr">/usr/</span><span class="n">bin</span><span class="sr">/perl&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="nv">$Id</span><span class="vg">$&lt;</span><span class="o">/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="err">Кравчук</span> <span class="err">Сергей</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#97;&amp;#108;&amp;#102;&amp;#115;&amp;#115;&amp;#x2e;&amp;#x6f;&amp;#x62;&amp;#x73;&amp;#x64;&amp;#64;&amp;#103;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;</span><span class="o">&gt;&amp;</span><span class="c1">#x61;&amp;#x6c;&amp;#102;&amp;#115;&amp;#x73;&amp;#x2e;&amp;#x6f;&amp;#x62;&amp;#115;&amp;#x64;&amp;#64;&amp;#x67;&amp;#109;&amp;#97;&amp;#x69;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Digest::</span><span class="n">MD5</span>  <span class="sx">qw(md5 md5_hex md5_base64)</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">version</span><span class="p">;</span> <span class="k">our</span> <span class="nv">$VERSION</span> <span class="o">=</span> <span class="n">qv</span><span class="p">(</span><span class="mf">0.01</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">my</span> <span class="nv">$password_file</span> <span class="o">=</span> <span class="s">&#39;/etc/openvpn/auth/user_password.txt&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$ARG</span> <span class="o">=</span> <span class="nb">undef</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nv">$ARG</span> <span class="o">=</span> <span class="nb">shift</span> <span class="nv">@ARGV</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">open</span><span class="p">(</span> <span class="n">UPFILE</span><span class="p">,</span> <span class="s">&quot;&amp;lt;$ARG&quot;</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Could not open username/password tmp file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;No username/password file specified on command line\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">my</span> <span class="nv">$username</span> <span class="o">=</span> <span class="sr">&lt;UPFILE&gt;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$password</span> <span class="o">=</span> <span class="sr">&lt;UPFILE&gt;</span><span class="p">;</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nv">$username</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$password</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;Username/password not found in tmp file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">chomp</span> <span class="nv">$username</span><span class="p">;</span>
+</span><span class='line'><span class="nb">chomp</span> <span class="nv">$password</span><span class="p">;</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">close</span><span class="p">(</span><span class="n">UPFILE</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">open</span><span class="p">(</span> <span class="n">USER_PASSWORD</span><span class="p">,</span> <span class="s">&quot;&amp;lt;$password_file&quot;</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;Could not open username/password db file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="k">foreach</span> <span class="k">my</span> <span class="nv">$line</span> <span class="p">(</span><span class="sr">&lt;USER_PASSWORD&gt;</span><span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="nb">chomp</span><span class="p">(</span><span class="nv">$line</span><span class="p">);</span>
+</span><span class='line'><span class="k">my</span> <span class="p">(</span> <span class="nv">$read_user</span><span class="p">,</span> <span class="nv">$read_password</span> <span class="p">)</span> <span class="o">=</span> <span class="nb">split</span><span class="p">(</span><span class="sr">/:/</span><span class="p">,</span> <span class="nv">$line</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nv">$read_user</span> <span class="ow">eq</span> <span class="nv">$username</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">my</span> <span class="nv">$hex_password</span> <span class="o">=</span> <span class="n">md5_hex</span> <span class="nv">$password</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nv">$hex_password</span> <span class="ow">eq</span> <span class="nv">$read_password</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">close</span><span class="p">(</span><span class="n">USER_PASSWORD</span><span class="p">);</span>
+</span><span class='line'>        <span class="nb">exit</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">close</span><span class="p">(</span><span class="n">USER_PASSWORD</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Конфиг клиента</h3>
 
@@ -455,54 +704,86 @@ if ( $read_user eq $username ) {
 
 
 <p>Конфиг клиента:
-{% codeblock %}
-auth-user-pass
-dev tun
-proto tcp</p>
-
-<h1>Внешний IP сервера OpenVPN</h1>
-
-<p>remote 55.44.33.33</p>
-
-<h1>Port сервера</h1>
-
-<p>port 1194
-client
-resolv-retry infinite</p>
-
-<h1>полный путь до сертификата</h1>
-
-<p>ca "/Users/alfss/Documents/vpn/ca.crt"
-tls-client</p>
-
-<h1>полный путь до ключа</h1>
-
-<p>tls-auth "/Users/alfss/Documents/vpn/ta.key" 1
-auth MD5
-cipher BF-CBC
-ns-cert-type server
-comp-lzo
-persist-key
-persist-tun
-push "dhcp-option DNS 192.168.0.1"
-verb 3
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auth-user-pass
+</span><span class='line'>dev tun
+</span><span class='line'>proto tcp&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Внешний IP сервера OpenVPN&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>remote 55.44.33.33&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Port сервера&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>port 1194
+</span><span class='line'>client
+</span><span class='line'>resolv-retry infinite&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>полный путь до сертификата&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ca "/Users/alfss/Documents/vpn/ca.crt"
+</span><span class='line'>tls-client&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>полный путь до ключа&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>tls-auth "/Users/alfss/Documents/vpn/ta.key" 1
+</span><span class='line'>auth MD5
+</span><span class='line'>cipher BF-CBC
+</span><span class='line'>ns-cert-type server
+</span><span class='line'>comp-lzo
+</span><span class='line'>persist-key
+</span><span class='line'>persist-tun
+</span><span class='line'>push "dhcp-option DNS 192.168.0.1"
+</span><span class='line'>verb 3</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Добавление пользователя</h3>
 
 <p>Генерация хэш для пароля:
-{% codeblock %}
-echo -n 'password' | md5sum
-5f4dcc3b5aa765d61d8327deb882cf99
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo -n 'password' | md5sum
+</span><span class='line'>5f4dcc3b5aa765d61d8327deb882cf99</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>файл (/etc/openvpn/auth/user_password.txt)  с пользвателями должен иметь следующий вид:
-{% codeblock %}
-user1:5f4dcc3b5aa765d61d8327deb882cf99
-user2:5f4dcc3b5aa765d61d8327deb882cf99
-user3:5f4dcc3b5aa765d61d8327deb882cf99</p>
-
-<p>{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>user1:5f4dcc3b5aa765d61d8327deb882cf99
+</span><span class='line'>user2:5f4dcc3b5aa765d61d8327deb882cf99
+</span><span class='line'>user3:5f4dcc3b5aa765d61d8327deb882cf99&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Последний перевод строки обязателен.</p>
 ]]></content>
@@ -525,48 +806,57 @@ user3:5f4dcc3b5aa765d61d8327deb882cf99</p>
 
 <p>В master.cf описываем наш новый сервис:</p>
 
-<p>{% codeblock lang:bash %}
-dovecot  unix  -       n       n       -       -       pipe
-   flags=DRhu user=webuser argv=/usr/lib/dovecot/deliver -d webuser
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dovecot  unix  -       n       n       -       -       pipe
+</span><span class='line'>   <span class="nv">flags</span><span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>webuser <span class="nv">argv</span><span class="o">=</span>/usr/lib/dovecot/deliver -d webuser
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Вся почта будет складываться в каталог пользователя webuser.</p>
 
 <p>Устанавливаем службу dovecot(описанную выше) как дефолтную для доставки.</p>
 
 <p>main.cf:
-{% codeblock lang:bash %}
-default_transport = dovecot
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">default_transport</span> <span class="o">=</span> dovecot
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Теперь переходим к настройке dovecot.</h3>
 
 <p>Описываем как и где смотреть пользователей (я выбрал хранение в файле).</p>
 
-<p>{% codeblock lang:bash %}
-passdb {
-  driver = passwd-file
-  args = scheme=plain-md5 username_format=%n /etc/dovecot/users
-}</p>
-
-<p>userdb {
-  driver = passwd-file
-  args = username_format=%n /etc/dovecot/users
-}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>passdb <span class="o">{</span>
+</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
+</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">scheme</span><span class="o">=</span>plain-md5 <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
+</span><span class='line'><span class="o">}</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;userdb <span class="o">{</span>
+</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
+</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Будем хранить почту в формате Maildir. Указываем директорию и формат хранения.</p>
 
-<p>{% codeblock lang:bash %}
-mail_location = maildir:/srv/mail/%n
-{% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">mail_location</span> <span class="o">=</span> maildir:/srv/mail/%n
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <em>/srv/mail пренадлежит webuser(uid 2000:gid 2000)</em></p>
 
 <p>Заключительный шаг. Описываем нашего пользователя (webuser) в файле /etc/dovecot/users</p>
 
-<p>{% codeblock lang:bash %}
-webuser:{plain}jagsjhdgajhsd:2000:2000::/home/webuser
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>webuser:<span class="o">{</span>plain<span class="o">}</span>jagsjhdgajhsd:2000:2000::/home/webuser
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <ul>
 <li>webuser - имя пользователя</li>

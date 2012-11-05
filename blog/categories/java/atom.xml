@@ -4,7 +4,7 @@
   <title><![CDATA[Category: java | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/java/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-11-06T03:35:20+04:00</updated>
+  <updated>2012-11-06T03:37:45+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -22,33 +22,41 @@
 
 <p>Скачиваем jdk  с сайта Oracle http://www.oracle.com/technetwork/java/javase/downloads/index.html .</p>
 
-<p>{% codeblock lang:bash %}
-wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Распаковываем архив и копируем в /usr/lib/jvm/java-7-oracle</p>
 
-<p>{% codeblock lang:bash %}
-tar zxf jdk-7u3-linux-x64.tar.gz
-mkdir -p  /usr/lib/jvm
-mv jdk1.7.0_03 /usr/lib/jvm/java-7-oracle
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>tar zxf jdk-7u3-linux-x64.tar.gz
+</span><span class='line'>mkdir -p  /usr/lib/jvm
+</span><span class='line'>mv jdk1.7.0_03 /usr/lib/jvm/java-7-oracle
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Прописываем как java по умолчанию</p>
 
-<p>{% codeblock lang:bash %}
-sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 3
-update-alternatives --config java
-sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 3
-update-alternatives --config javac
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 3
+</span><span class='line'>update-alternatives --config java
+</span><span class='line'>sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 3
+</span><span class='line'>update-alternatives --config javac
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>{% codeblock lang:bash %}
-java -version
-java version "1.7.0_03"
-Java(TM) SE Runtime Environment (build 1.7.0_03-b04)
-Java HotSpot(TM) Client VM (build 22.1-b02, mixed mode)
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>java -version
+</span><span class='line'>java version <span class="s2">&quot;1.7.0_03&quot;</span>
+</span><span class='line'>Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_03-b04<span class="o">)</span>
+</span><span class='line'>Java HotSpot<span class="o">(</span>TM<span class="o">)</span> Client VM <span class="o">(</span>build 22.1-b02, mixed mode<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

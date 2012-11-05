@@ -4,7 +4,7 @@
   <title><![CDATA[Category: perl | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-11-06T03:35:20+04:00</updated>
+  <updated>2012-11-06T03:37:45+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -23,9 +23,8 @@
 
 <h3>Устанавливаем необходимые пакеты</h3>
 
-<p>{% codeblock %}
-sudo apt-get install openvpn
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--more-->
 
@@ -33,16 +32,16 @@ sudo apt-get install openvpn
 <h3>Создание сертификатов</h3>
 
 <p>Идем в /usr/share/doc/openvpn/examples/easy-rsa/2.0/ и выполняем следующие действия.
-{% codeblock %}
-sh
-. ./vars
- ./clean-all
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh
+</span><span class='line'>. ./vars
+</span><span class='line'> ./clean-all</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Создаем CA сертификат.
-{% codeblock %}
-./build-ca
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./build-ca</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <ul>
 <li>Country Name – 2х буквенный код страны (RU)</li>
@@ -56,28 +55,34 @@ sh
 
 
 <p>Создаем X.509 сертификатов для сервера.
-{% codeblock %}
-./build-key-server server
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./build-key-server server</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Создайте ключ Диффи Хельман.
-{% codeblock %}
-openvpn --genkey --secret ta.key
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>openvpn --genkey --secret ta.key</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Настройка OpenVPN</h3>
 
 <p>Создадим директории для файлов.
-{% codeblock %}</p>
-
-<h1>ключи и сертификаты</h1>
-
-<p>mkdir /etc/openvpn/keys</p>
-
-<h1>скрипт для авторизации</h1>
-
-<p>mkdir /etc/openvpn/auth
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>ключи и сертификаты&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mkdir /etc/openvpn/keys&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>скрипт для авторизации&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mkdir /etc/openvpn/auth</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>В директорию /etc/openvpn/keys должны быть скопированы следующие файлы из /usr/share/doc/openvpn/examples/easy-rsa/2.0:</p>
 
@@ -92,123 +97,231 @@ openvpn --genkey --secret ta.key
 
 <p>Конфиг сервера /etc/openvpn/openvpn.conf.
 Опции описывать не буду ибо это просто посмотреть в документации.
-{% codeblock %}
-script-security 3
-tmp-dir /tmp
-port 1194
-proto tcp
-dev tun0
-ca /etc/openvpn/keys/ca.crt
-cert /etc/openvpn/keys/server.crt
-client-cert-not-required
-key /etc/openvpn/keys/server.key
-dh /etc/openvpn/keys/dh1024.pem
-server 10.8.0.0 255.255.255.0
-push "route 192.168.0.0 255.255.255.0"
-push "dhcp-option DNS 192.168.0.1"
-tls-server
-tls-auth /etc/openvpn/keys/ta.key 0
-tls-timeout 120
-auth MD5
-cipher BF-CBC
-keepalive 10 120
-comp-lzo
-max-clients 100
-user nobody
-group nogroup
-persist-key
-persist-tun
-status /var/log/openvpn/openvpn-status.log
-log /var/log/openvpn/openvpn.log
-verb 4
-auth-user-pass-verify /etc/openvpn/auth/auth-static-file.pl via-file
-route 10.8.0.0 255.255.255.0
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script-security 3
+</span><span class='line'>tmp-dir /tmp
+</span><span class='line'>port 1194
+</span><span class='line'>proto tcp
+</span><span class='line'>dev tun0
+</span><span class='line'>ca /etc/openvpn/keys/ca.crt
+</span><span class='line'>cert /etc/openvpn/keys/server.crt
+</span><span class='line'>client-cert-not-required
+</span><span class='line'>key /etc/openvpn/keys/server.key
+</span><span class='line'>dh /etc/openvpn/keys/dh1024.pem
+</span><span class='line'>server 10.8.0.0 255.255.255.0
+</span><span class='line'>push "route 192.168.0.0 255.255.255.0"
+</span><span class='line'>push "dhcp-option DNS 192.168.0.1"
+</span><span class='line'>tls-server
+</span><span class='line'>tls-auth /etc/openvpn/keys/ta.key 0
+</span><span class='line'>tls-timeout 120
+</span><span class='line'>auth MD5
+</span><span class='line'>cipher BF-CBC
+</span><span class='line'>keepalive 10 120
+</span><span class='line'>comp-lzo
+</span><span class='line'>max-clients 100
+</span><span class='line'>user nobody
+</span><span class='line'>group nogroup
+</span><span class='line'>persist-key
+</span><span class='line'>persist-tun
+</span><span class='line'>status /var/log/openvpn/openvpn-status.log
+</span><span class='line'>log /var/log/openvpn/openvpn.log
+</span><span class='line'>verb 4
+</span><span class='line'>auth-user-pass-verify /etc/openvpn/auth/auth-static-file.pl via-file
+</span><span class='line'>route 10.8.0.0 255.255.255.0</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Скрипт авторизации.</h3>
 
 <p>/etc/openvpn/auth/auth-static-file.pl:
-{% codeblock lang:perl %}</p>
-
-<h1>!/usr/bin/perl</h1>
-
-<p>#</p>
-
-<h1>$Id$</h1>
-
-<p>#</p>
-
-<h1>Кравчук Сергей, <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#97;&#x6c;&#102;&#x73;&#115;&#x2e;&#111;&#x62;&#x73;&#x64;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#97;&#108;&#x66;&#115;&#115;&#46;&#x6f;&#98;&#115;&#100;&#x40;&#103;&#109;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;</a></h1>
-
-<p>#</p>
-
-<p>use strict;
-use warnings;
-use Digest::MD5  qw(md5 md5_hex md5_base64);
-use version; our $VERSION = qv(0.01);</p>
-
-<p>my $password_file = '/etc/openvpn/auth/user_password.txt';
-my $ARG = undef;
-if ( $ARG = shift @ARGV ) {</p>
-
-<pre><code>if ( !open( UPFILE, "&lt;$ARG" ) ) {
-    print "Could not open username/password tmp file: $ARG\n";
-    exit 1;
-}
-</code></pre>
-
-<p>}
-else {</p>
-
-<pre><code>print "No username/password file specified on command line\n";
-exit 1;
-</code></pre>
-
-<p>}</p>
-
-<p>my $username = <UPFILE>;
-my $password = <UPFILE>;</p>
-
-<p>if ( !$username || !$password ) {</p>
-
-<pre><code>print "Username/password not found in tmp file: $ARG\n";
-exit 1;
-</code></pre>
-
-<p>}</p>
-
-<p>chomp $username;
-chomp $password;</p>
-
-<p>close(UPFILE);</p>
-
-<p>if ( !open( USER_PASSWORD, "&lt;$password_file" ) ) {</p>
-
-<pre><code>print "Could not open username/password db file: $ARG\n";
-exit 1;
-</code></pre>
-
-<p>}
-foreach my $line (<USER_PASSWORD>) {</p>
-
-<pre><code>chomp($line);
-my ( $read_user, $read_password ) = split(/:/, $line);
-if ( $read_user eq $username ) {
-    my $hex_password = md5_hex $password;
-    if ( $hex_password eq $read_password) {
-        close(USER_PASSWORD);
-        exit 0;
-    }
-    exit 1;
-}
-</code></pre>
-
-<p>}</p>
-
-<p>close(USER_PASSWORD);</p>
-
-<p>exit 1;
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="o">!</span><span class="sr">/usr/</span><span class="n">bin</span><span class="sr">/perl&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="nv">$Id</span><span class="vg">$&lt;</span><span class="o">/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;</span><span class="err">Кравчук</span> <span class="err">Сергей</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#97;&amp;#108;&amp;#x66;&amp;#115;&amp;#x73;&amp;#46;&amp;#x6f;&amp;#x62;&amp;#x73;&amp;#x64;&amp;#x40;&amp;#103;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&quot;</span><span class="o">&gt;&amp;</span><span class="c1">#97;&amp;#108;&amp;#x66;&amp;#115;&amp;#115;&amp;#46;&amp;#x6f;&amp;#98;&amp;#115;&amp;#100;&amp;#x40;&amp;#103;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="c1">#&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Digest::</span><span class="n">MD5</span>  <span class="sx">qw(md5 md5_hex md5_base64)</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">version</span><span class="p">;</span> <span class="k">our</span> <span class="nv">$VERSION</span> <span class="o">=</span> <span class="n">qv</span><span class="p">(</span><span class="mf">0.01</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">my</span> <span class="nv">$password_file</span> <span class="o">=</span> <span class="s">&#39;/etc/openvpn/auth/user_password.txt&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$ARG</span> <span class="o">=</span> <span class="nb">undef</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nv">$ARG</span> <span class="o">=</span> <span class="nb">shift</span> <span class="nv">@ARGV</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">open</span><span class="p">(</span> <span class="n">UPFILE</span><span class="p">,</span> <span class="s">&quot;&amp;lt;$ARG&quot;</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Could not open username/password tmp file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;No username/password file specified on command line\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">my</span> <span class="nv">$username</span> <span class="o">=</span> <span class="sr">&lt;UPFILE&gt;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$password</span> <span class="o">=</span> <span class="sr">&lt;UPFILE&gt;</span><span class="p">;</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nv">$username</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$password</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;Username/password not found in tmp file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">chomp</span> <span class="nv">$username</span><span class="p">;</span>
+</span><span class='line'><span class="nb">chomp</span> <span class="nv">$password</span><span class="p">;</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">close</span><span class="p">(</span><span class="n">UPFILE</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">open</span><span class="p">(</span> <span class="n">USER_PASSWORD</span><span class="p">,</span> <span class="s">&quot;&amp;lt;$password_file&quot;</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">print</span> <span class="s">&quot;Could not open username/password db file: $ARG\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="k">foreach</span> <span class="k">my</span> <span class="nv">$line</span> <span class="p">(</span><span class="sr">&lt;USER_PASSWORD&gt;</span><span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="nb">chomp</span><span class="p">(</span><span class="nv">$line</span><span class="p">);</span>
+</span><span class='line'><span class="k">my</span> <span class="p">(</span> <span class="nv">$read_user</span><span class="p">,</span> <span class="nv">$read_password</span> <span class="p">)</span> <span class="o">=</span> <span class="nb">split</span><span class="p">(</span><span class="sr">/:/</span><span class="p">,</span> <span class="nv">$line</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nv">$read_user</span> <span class="ow">eq</span> <span class="nv">$username</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">my</span> <span class="nv">$hex_password</span> <span class="o">=</span> <span class="n">md5_hex</span> <span class="nv">$password</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nv">$hex_password</span> <span class="ow">eq</span> <span class="nv">$read_password</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">close</span><span class="p">(</span><span class="n">USER_PASSWORD</span><span class="p">);</span>
+</span><span class='line'>        <span class="nb">exit</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">close</span><span class="p">(</span><span class="n">USER_PASSWORD</span><span class="p">);</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Конфиг клиента</h3>
 
@@ -222,54 +335,86 @@ if ( $read_user eq $username ) {
 
 
 <p>Конфиг клиента:
-{% codeblock %}
-auth-user-pass
-dev tun
-proto tcp</p>
-
-<h1>Внешний IP сервера OpenVPN</h1>
-
-<p>remote 55.44.33.33</p>
-
-<h1>Port сервера</h1>
-
-<p>port 1194
-client
-resolv-retry infinite</p>
-
-<h1>полный путь до сертификата</h1>
-
-<p>ca "/Users/alfss/Documents/vpn/ca.crt"
-tls-client</p>
-
-<h1>полный путь до ключа</h1>
-
-<p>tls-auth "/Users/alfss/Documents/vpn/ta.key" 1
-auth MD5
-cipher BF-CBC
-ns-cert-type server
-comp-lzo
-persist-key
-persist-tun
-push "dhcp-option DNS 192.168.0.1"
-verb 3
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auth-user-pass
+</span><span class='line'>dev tun
+</span><span class='line'>proto tcp&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Внешний IP сервера OpenVPN&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>remote 55.44.33.33&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Port сервера&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>port 1194
+</span><span class='line'>client
+</span><span class='line'>resolv-retry infinite&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>полный путь до сертификата&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ca "/Users/alfss/Documents/vpn/ca.crt"
+</span><span class='line'>tls-client&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>полный путь до ключа&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>tls-auth "/Users/alfss/Documents/vpn/ta.key" 1
+</span><span class='line'>auth MD5
+</span><span class='line'>cipher BF-CBC
+</span><span class='line'>ns-cert-type server
+</span><span class='line'>comp-lzo
+</span><span class='line'>persist-key
+</span><span class='line'>persist-tun
+</span><span class='line'>push "dhcp-option DNS 192.168.0.1"
+</span><span class='line'>verb 3</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Добавление пользователя</h3>
 
 <p>Генерация хэш для пароля:
-{% codeblock %}
-echo -n 'password' | md5sum
-5f4dcc3b5aa765d61d8327deb882cf99
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo -n 'password' | md5sum
+</span><span class='line'>5f4dcc3b5aa765d61d8327deb882cf99</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>файл (/etc/openvpn/auth/user_password.txt)  с пользвателями должен иметь следующий вид:
-{% codeblock %}
-user1:5f4dcc3b5aa765d61d8327deb882cf99
-user2:5f4dcc3b5aa765d61d8327deb882cf99
-user3:5f4dcc3b5aa765d61d8327deb882cf99</p>
-
-<p>{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>user1:5f4dcc3b5aa765d61d8327deb882cf99
+</span><span class='line'>user2:5f4dcc3b5aa765d61d8327deb882cf99
+</span><span class='line'>user3:5f4dcc3b5aa765d61d8327deb882cf99&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Последний перевод строки обязателен.</p>
 ]]></content>
