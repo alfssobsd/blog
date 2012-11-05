@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dovecot | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/dovecot/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-11-06T03:17:55+04:00</updated>
+  <updated>2012-11-06T03:35:20+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -30,57 +30,48 @@
 
 <p>В master.cf описываем наш новый сервис:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>dovecot  unix  -       n       n       -       -       pipe
-</span><span class='line'>   <span class="nv">flags</span><span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>webuser <span class="nv">argv</span><span class="o">=</span>/usr/lib/dovecot/deliver -d webuser
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+dovecot  unix  -       n       n       -       -       pipe
+   flags=DRhu user=webuser argv=/usr/lib/dovecot/deliver -d webuser
+{% endcodeblock %}</p>
 
 <p>Вся почта будет складываться в каталог пользователя webuser.</p>
 
 <p>Устанавливаем службу dovecot(описанную выше) как дефолтную для доставки.</p>
 
 <p>main.cf:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">default_transport</span> <span class="o">=</span> dovecot
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:bash %}
+default_transport = dovecot
+{% endcodeblock %}</p>
 
 <h3>Теперь переходим к настройке dovecot.</h3>
 
 <p>Описываем как и где смотреть пользователей (я выбрал хранение в файле).</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>passdb <span class="o">{</span>
-</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
-</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">scheme</span><span class="o">=</span>plain-md5 <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
-</span><span class='line'><span class="o">}</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;userdb <span class="o">{</span>
-</span><span class='line'>  <span class="nv">driver</span> <span class="o">=</span> passwd-file
-</span><span class='line'>  <span class="nv">args</span> <span class="o">=</span> <span class="nv">username_format</span><span class="o">=</span>%n /etc/dovecot/users
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+passdb {
+  driver = passwd-file
+  args = scheme=plain-md5 username_format=%n /etc/dovecot/users
+}</p>
+
+<p>userdb {
+  driver = passwd-file
+  args = username_format=%n /etc/dovecot/users
+}
+{% endcodeblock %}</p>
 
 <p>Будем хранить почту в формате Maildir. Указываем директорию и формат хранения.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">mail_location</span> <span class="o">=</span> maildir:/srv/mail/%n
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>{% codeblock lang:bash %}
+mail_location = maildir:/srv/mail/%n
+{% endcodeblock %}
 <em>/srv/mail пренадлежит webuser(uid 2000:gid 2000)</em></p>
 
 <p>Заключительный шаг. Описываем нашего пользователя (webuser) в файле /etc/dovecot/users</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>webuser:<span class="o">{</span>plain<span class="o">}</span>jagsjhdgajhsd:2000:2000::/home/webuser
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+webuser:{plain}jagsjhdgajhsd:2000:2000::/home/webuser
+{% endcodeblock %}</p>
 
 <ul>
 <li>webuser - имя пользователя</li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ssl | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//blog/categories/ssl/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2012-11-06T03:17:55+04:00</updated>
+  <updated>2012-11-06T03:35:20+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -22,13 +22,11 @@
 
 <p>Информация о md5 сумме поможет разобраться в данной ситуации:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>openssl x509 -noout -modulus -in certificate.crt | openssl md5
-</span><span class='line'>openssl rsa -noout -modulus -in privateKey.key | openssl md5
-</span><span class='line'>openssl req -noout -modulus -in CSR.csr | openssl md5
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+openssl x509 -noout -modulus -in certificate.crt | openssl md5
+openssl rsa -noout -modulus -in privateKey.key | openssl md5
+openssl req -noout -modulus -in CSR.csr | openssl md5
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   
