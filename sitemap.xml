@@ -2,62 +2,62 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.alfss.net//post/2011/12/13/kodirovka-skud-sphinx-plus-rails/</loc>
-        <lastmod>2012-03-04T16:03:05+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/</loc>
-        <lastmod>2012-03-04T16:03:05+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/</loc>
-        <lastmod>2012-03-04T16:03:05+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/</loc>
-        <lastmod>2012-03-04T16:03:05+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql/
         </loc>
-        <lastmod>2012-03-04T19:39:55+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2012/03/08/ubuntu-install-java7/</loc>
-        <lastmod>2012-03-08T14:39:53+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata/</loc>
-        <lastmod>2012-09-01T21:44:17+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/
         </loc>
-        <lastmod>2012-09-02T18:57:55+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.alfss.net//post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/
         </loc>
-        <lastmod>2012-10-29T18:58:16+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/</loc>
-        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/
         </loc>
-        <lastmod>2012-10-29T17:35:43+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//blog/archives/</loc>
-        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
     <url>
         <loc>http://blog.alfss.net//</loc>
-        <lastmod>2012-10-29T18:58:27+04:00</lastmod>
+        <lastmod>2012-11-06T02:49:49+04:00</lastmod>
     </url>
 </urlset>
