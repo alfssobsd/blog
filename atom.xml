@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net//atom.xml" rel="self"/>
   <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:11+04:00</updated>
+  <updated>2013-01-19T20:08:29+04:00</updated>
   <id>http://blog.alfss.net//</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Zabbix динамическое обнаружение элементов на примере мониторинга RabbitMQ ]]></title>
+    <title type="html"><![CDATA[Zabbix, динамическое обнаружение элементов на примере мониторинга RabbitMQ ]]></title>
     <link href="http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq/"/>
     <updated>2013-01-19T19:03:00+04:00</updated>
     <id>http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq</id>
