@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rabbitmq | Треск и скрежет в моей голове]]></title>
+  <link href="http://blog.alfss.net//blog/categories/rabbitmq/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net//"/>
+  <updated>2013-01-19T20:01:15+04:00</updated>
+  <id>http://blog.alfss.net//</id>
+  <author>
+    <name><![CDATA[Sergey V. Kravchuk]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Zabbix динамическое обнаружение элементов на примере мониторинга RabbitMQ ]]></title>
+    <link href="http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq/"/>
+    <updated>2013-01-19T19:03:00+04:00</updated>
+    <id>http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq</id>
+    <content type="html"><![CDATA[<p>На данный момент я использую zabbix 2.0.2.</p>
+
+<p>Я опишу кратко основные моменты. Все скрипты и темплейты можно скачать из репозитория https://github.com/alfss/zabbix-rabbitmq .</p>
+
+<!--more-->
+
+
+<p>Этой возможности zabbix просто нет цены. В данном случае это полезно поскольку rabbitmq может иметь несколько виртуальный хостов, а так же нод.</p>
+
+<p>Для обнаружения элементов потребуется написать скрипт который будет выдавать требуемые нам данные в виде json массива.</p>
+
+<p>Пример json для обнаружения нод и виртуальный хостов.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>   "data": [&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>  {
+</span><span class='line'>     "{#NODENAME}": "rabbit@service-01",
+</span><span class='line'>     "{#VHOSTNAME}": "/"
+</span><span class='line'>  },
+</span><span class='line'>  {
+</span><span class='line'>     "{#NODENAME}": "rabbit@service-01",
+</span><span class='line'>     "{#VHOSTNAME}": "unicom-dev-07-mailqueue"
+</span><span class='line'>  }
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>   ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Так же потребуется описать UserParameter в zabbix агенте.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Обанружение node и vhost&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>UserParameter=rabbitmq.discovery,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Обанружение queue&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>UserParameter=rabbitmq.discovery_queue,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh queue&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Обанружение exchange&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>UserParameter=rabbitmq.discovery_exchanges,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh exchange&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Извлечение наблюдаемых парамтров&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>UserParameter=rabbitmq[*],/etc/zabbix/script/rabbitmq/rabbitmq-status.sh $1 $2 $3 $4</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>После чего требуется создать в zabbix темплейт и описать обнаружение элементов.</p>
+
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-1.png" width="800" height="290"></p>
+
+<p>Задать интервал проверки на наличие новых элементов и указать тэг для фильтра</p>
+
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
+
+<p>Описать прототипы элементов.</p>
+
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
+
+<p>Описать тригеры для прототипов элементов.</p>
+
+<p>Дальше все как обычно для zabbix.</p>
+]]></content>
+  </entry>
+  
+</feed>

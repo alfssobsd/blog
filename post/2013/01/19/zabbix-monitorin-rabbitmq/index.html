@@ -3,12 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Zimbra + Graylisting - Треск и скрежет в моей голове</title>
+	<title>Zabbix динамическое обнаружение элементов на примере мониторинга RabbitMQ  - Треск и скрежет в моей голове</title>
 	<meta name="author" content="Sergey V. Kravchuk">
 
 	
-	<meta name="description" content="Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на &hellip;">
+	<meta name="description" content="На данный момент я использую zabbix 2.0.2. Я опишу кратко основные моменты. Все скрипты и темплейты можно скачать из репозитория https://github.com/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,18 +74,19 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post">
-	<h1 class="title">Zimbra + Graylisting</h1>
-	<div class="entry-content"><p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
+	<h1 class="title">Zabbix динамическое обнаружение элементов на примере мониторинга RabbitMQ</h1>
+	<div class="entry-content"><p>На данный момент я использую zabbix 2.0.2.</p>
 
-<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
-
-<h3>Собственно приступим к настройке. (&#8220;Смерть спаму!&#8221;)</h3>
+<p>Я опишу кратко основные моменты. Все скрипты и темплейты можно скачать из репозитория https://github.com/alfss/zabbix-rabbitmq .</p>
 
 <!--more-->
 
 
+<p>Этой возможности zabbix просто нет цены. В данном случае это полезно поскольку rabbitmq может иметь несколько виртуальный хостов, а так же нод.</p>
 
+<p>Для обнаружения элементов потребуется написать скрипт который будет выдавать требуемые нам данные в виде json массива.</p>
+
+<p>Пример json для обнаружения нод и виртуальный хостов.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -98,23 +98,23 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>su - zimbra
-</span><span class='line'>zmprov ms mail.example.net +zimbraServiceEnabled cbpolicyd
-</span><span class='line'>zmlocalconfig -e postfix_enable_smtpd_policyd=yes
-</span><span class='line'>zmprov mcf +zimbraMtaRestriction "check_policy_service inet:127.0.0.1:10031"
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_level=4
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_detail=modules,tracking,policies
-</span><span class='line'>zmlocalconfig -e cbpolicyd_module_accesscontrol=1 cbpolicyd_module_checkhelo=1 \
-</span><span class='line'>  cbpolicyd_module_checkspf=1 cbpolicyd_module_greylisting=1 cbpolicyd_module_quotas=1
-</span><span class='line'>zmmtactl restart
-</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>   "data": [
+</span><span class='line'>      {
+</span><span class='line'>         "{#NODENAME}": "rabbit@service-01",
+</span><span class='line'>         "{#VHOSTNAME}": "/"
+</span><span class='line'>      },
+</span><span class='line'>      {
+</span><span class='line'>         "{#NODENAME}": "rabbit@service-01",
+</span><span class='line'>         "{#VHOSTNAME}": "unicom-dev-07-mailqueue"
+</span><span class='line'>      }
+</span><span class='line'>   ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Да, это все, что требовалось для запуска демона и скрещивания его с postfix. :)</p>
-
-<h3>Настраиваем веб морду.</h3>
-
-<p>Добавим в конец  /opt/zimbra/conf/httpd.conf  следующие строчки:</p>
+<p>Так же потребуется описать UserParameter в zabbix агенте.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -123,32 +123,32 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alias /policyd /opt/zimbra/cbpolicyd/share/webui/
-</span><span class='line'>
-</span><span class='line'>&lt;Directory /opt/zimbra/cbpolicyd/share/webui/>
-</span><span class='line'>    Order Deny,Allow
-</span><span class='line'>    Deny from all
-</span><span class='line'>    Allow from 192.168.1.0/255.255.255.0
-</span><span class='line'>&lt;/Directory></span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#Обанружение node и vhost
+</span><span class='line'>UserParameter=rabbitmq.discovery,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh
+</span><span class='line'>#Обанружение queue 
+</span><span class='line'>UserParameter=rabbitmq.discovery_queue,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh queue
+</span><span class='line'>#Обанружение exchange
+</span><span class='line'>UserParameter=rabbitmq.discovery_exchanges,/etc/zabbix/script/rabbitmq/detect_rabbitmq_nodes.sh exchange
+</span><span class='line'>#Извлечение наблюдаемых парамтров
+</span><span class='line'>UserParameter=rabbitmq[*],/etc/zabbix/script/rabbitmq/rabbitmq-status.sh $1 $2 $3 $4</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
+<p>После чего требуется создать в zabbix темплейт и описать обнаружение элементов.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-1.png" width="800" height="290"></p>
 
+<p>Задать интервал проверки на наличие новых элементов и указать тэг для фильтра</p>
 
-<p>Перезапустим апача который идет в комплекте с zimbra.</p>
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Описать прототипы элементов.</p>
 
+<p><img src="/images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
 
-<p>Теперь панель управления policyd доступна по адресу  http://mail.example.net:7780/policyd/index.php</p>
+<p>Описать тригеры для прототипов элементов.</p>
 
-<p>Правда панель управления оставляет желать лучшего вплане UI, но это терпимо.</p>
+<p>Дальше все как обычно для zabbix.</p>
 </div>
 
 </article>
@@ -194,8 +194,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/';
-        var disqus_url = 'http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/';
+        var disqus_identifier = 'http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq/';
+        var disqus_url = 'http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq/';
         var disqus_script = 'embed.js';
       
     (function () {
