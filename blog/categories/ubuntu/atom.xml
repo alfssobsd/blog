@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ubuntu | Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//blog/categories/ubuntu/atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:29+04:00</updated>
-  <id>http://blog.alfss.net//</id>
+  <link href="http://blog.alfss.net/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net/"/>
+  <updated>2013-12-13T17:22:30+04:00</updated>
+  <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Установка PIL в virtualenv (Ubuntu 12.04 LTS x64)]]></title>
-    <link href="http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/"/>
+    <link href="http://blog.alfss.net/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/"/>
     <updated>2012-10-26T22:12:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64</id>
+    <id>http://blog.alfss.net/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64</id>
     <content type="html"><![CDATA[<p>У PIL есть проблема с поисками бибблиотек на 64х битных системах.
 Простой хак для решения данной проблемы на ubuntu 12.04 LTS x 64</p>
 
@@ -34,9 +34,9 @@
   
   <entry>
     <title type="html"><![CDATA[Установка redmine (Ubuntu 12.04 LTS)]]></title>
-    <link href="http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/"/>
+    <link href="http://blog.alfss.net/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/"/>
     <updated>2012-10-26T22:10:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts</id>
+    <id>http://blog.alfss.net/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts</id>
     <content type="html"><![CDATA[<p>Я считаю что ставить rails приложения лучше всего через RVM.
 Ниже описаны действия для развертывания redmine на только что установленной системе.</p>
 
@@ -122,7 +122,7 @@ Unicorn будте использоватся как сервер приложе
 </span><span class='line'>  password: "password"</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Стартовый скрипт unicorn /etc/init.d/unicorn_redmine
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

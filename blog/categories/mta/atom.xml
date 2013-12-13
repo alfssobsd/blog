@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: MTA | Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//blog/categories/mta/atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:29+04:00</updated>
-  <id>http://blog.alfss.net//</id>
+  <link href="http://blog.alfss.net/blog/categories/mta/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net/"/>
+  <updated>2013-12-13T17:22:30+04:00</updated>
+  <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/"/>
+    <link href="http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting/"/>
     <updated>2011-12-14T01:25:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting</id>
+    <id>http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting</id>
     <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
 В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
 
@@ -77,12 +77,12 @@
 
 <p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Перезапустим апача который идет в комплекте с zimbra.
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 

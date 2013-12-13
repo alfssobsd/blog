@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: java | Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:29+04:00</updated>
-  <id>http://blog.alfss.net//</id>
+  <link href="http://blog.alfss.net/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net/"/>
+  <updated>2013-12-13T17:22:30+04:00</updated>
+  <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,20 +15,20 @@
   
   <entry>
     <title type="html"><![CDATA[Ubuntu, установка java 1.7]]></title>
-    <link href="http://blog.alfss.net//post/2012/03/08/ubuntu-install-java7/"/>
+    <link href="http://blog.alfss.net/post/2012/03/08/ubuntu-install-java7/"/>
     <updated>2012-03-08T14:14:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/03/08/ubuntu-install-java7</id>
+    <id>http://blog.alfss.net/post/2012/03/08/ubuntu-install-java7</id>
     <content type="html"><![CDATA[<p>На данный момент нету пакетов java 1.7.03 для Ubuntu, поэтому я решил поставить из оф. архива.</p>
 
 <p>Скачиваем jdk  с сайта Oracle http://www.oracle.com/technetwork/java/javase/downloads/index.html .</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Распаковываем архив и копируем в /usr/lib/jvm/java-7-oracle</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>tar zxf jdk-7u3-linux-x64.tar.gz
@@ -38,7 +38,7 @@
 
 <p>Прописываем как java по умолчанию</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -48,7 +48,7 @@
 </span><span class='line'>update-alternatives --config javac
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

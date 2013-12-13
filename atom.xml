@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:29+04:00</updated>
-  <id>http://blog.alfss.net//</id>
+  <link href="http://blog.alfss.net/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net/"/>
+  <updated>2013-12-13T17:22:30+04:00</updated>
+  <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Zabbix, динамическое обнаружение элементов на примере мониторинга RabbitMQ ]]></title>
-    <link href="http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq/"/>
+    <link href="http://blog.alfss.net/post/2013/01/19/zabbix-monitorin-rabbitmq/"/>
     <updated>2013-01-19T19:03:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2013/01/19/zabbix-monitorin-rabbitmq</id>
+    <id>http://blog.alfss.net/post/2013/01/19/zabbix-monitorin-rabbitmq</id>
     <content type="html"><![CDATA[<p>На данный момент я использую zabbix 2.0.2.</p>
 
 <p>Я опишу кратко основные моменты. Все скрипты и темплейты можно скачать из репозитория https://github.com/alfss/zabbix-rabbitmq .</p>
@@ -79,15 +79,15 @@
 
 <p>После чего требуется создать в zabbix темплейт и описать обнаружение элементов.</p>
 
-<p><img src="http://blog.alfss.net//images/post/2013-01-19-zabbix-monitorin-rabbitmq-1.png" width="800" height="290"></p>
+<p><img src="http://blog.alfss.net/images/post/2013-01-19-zabbix-monitorin-rabbitmq-1.png" width="800" height="290"></p>
 
 <p>Задать интервал проверки на наличие новых элементов и указать тэг для фильтра</p>
 
-<p><img src="http://blog.alfss.net//images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
+<p><img src="http://blog.alfss.net/images/post/2013-01-19-zabbix-monitorin-rabbitmq-2.png" width="800" height="290"></p>
 
 <p>Описать прототипы элементов.</p>
 
-<p><img src="http://blog.alfss.net//images/post/2013-01-19-zabbix-monitorin-rabbitmq-3.png" width="800" height="290"></p>
+<p><img src="http://blog.alfss.net/images/post/2013-01-19-zabbix-monitorin-rabbitmq-3.png" width="800" height="290"></p>
 
 <p>Описать тригеры для прототипов элементов.</p>
 
@@ -97,9 +97,9 @@
   
   <entry>
     <title type="html"><![CDATA[Установка PIL в virtualenv (Ubuntu 12.04 LTS x64)]]></title>
-    <link href="http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/"/>
+    <link href="http://blog.alfss.net/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64/"/>
     <updated>2012-10-26T22:12:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64</id>
+    <id>http://blog.alfss.net/post/2012/10/26/ustanovka-pil-v-virtualenv-ubuntu-12-dot-04-lts-x64</id>
     <content type="html"><![CDATA[<p>У PIL есть проблема с поисками бибблиотек на 64х битных системах.
 Простой хак для решения данной проблемы на ubuntu 12.04 LTS x 64</p>
 
@@ -117,9 +117,9 @@
   
   <entry>
     <title type="html"><![CDATA[Установка redmine (Ubuntu 12.04 LTS)]]></title>
-    <link href="http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/"/>
+    <link href="http://blog.alfss.net/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts/"/>
     <updated>2012-10-26T22:10:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts</id>
+    <id>http://blog.alfss.net/post/2012/10/26/ustanovka-redmine-ubuntu-12-dot-04-lts</id>
     <content type="html"><![CDATA[<p>Я считаю что ставить rails приложения лучше всего через RVM.
 Ниже описаны действия для развертывания redmine на только что установленной системе.</p>
 
@@ -223,7 +223,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Стартовый скрипт unicorn /etc/init.d/unicorn_redmine</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -406,9 +406,9 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[OpenVPN + аутентификация по логину и паролю]]></title>
-    <link href="http://blog.alfss.net//post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/"/>
+    <link href="http://blog.alfss.net/post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu/"/>
     <updated>2012-10-26T22:09:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu</id>
+    <id>http://blog.alfss.net/post/2012/10/26/openvpn-plus-autientifikatsiia-po-loghinu-i-paroliu</id>
     <content type="html"><![CDATA[<p>Мне потребовался доступ к внутренней сети и я решил использовать openvpn для этих целей.
 Поскольку LDAP на этот момент еще нету, аутентификация будет на основе файла с паролями в md5.</p>
 
@@ -558,7 +558,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>/etc/openvpn/auth/auth-static-file.pl:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -764,9 +764,9 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Сохранение всей почты в один ящик Postfix + Dovecot]]></title>
-    <link href="http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/"/>
+    <link href="http://blog.alfss.net/post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/"/>
     <updated>2012-09-02T18:39:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot</id>
+    <id>http://blog.alfss.net/post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot</id>
     <content type="html"><![CDATA[<p>Мне потребовалось реализовать сохранение всей исходящей и входящей почты в один ящик на тестовом сервер.
 Как SMTP  я выбрал Postfix за его простоту и Dovecot как imap сервер и сервер доставки.</p>
 
@@ -779,7 +779,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>В master.cf описываем наш новый сервис:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>dovecot  unix  -       n       n       -       -       pipe
 </span><span class='line'>   <span class="nv">flags</span><span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>webuser <span class="nv">argv</span><span class="o">=</span>/usr/lib/dovecot/deliver -d webuser
@@ -792,7 +792,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>main.cf:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">default_transport</span> <span class="o">=</span> dovecot
 </span></code></pre></td></tr></table></div></figure>
 
@@ -801,7 +801,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Описываем как и где смотреть пользователей (я выбрал хранение в файле).</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -824,7 +824,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Будем хранить почту в формате Maildir. Указываем директорию и формат хранения.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">mail_location</span> <span class="o">=</span> maildir:/srv/mail/%n
 </span></code></pre></td></tr></table></div></figure>
 
@@ -833,7 +833,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Заключительный шаг. Описываем нашего пользователя (webuser) в файле /etc/dovecot/users</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>webuser:<span class="o">{</span>plain<span class="o">}</span>jagsjhdgajhsd:2000:2000::/home/webuser
 </span></code></pre></td></tr></table></div></figure>
 
@@ -849,14 +849,14 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Валидация SSL ключа и сертификата]]></title>
-    <link href="http://blog.alfss.net//post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata/"/>
+    <link href="http://blog.alfss.net/post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata/"/>
     <updated>2012-09-01T21:41:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata</id>
+    <id>http://blog.alfss.net/post/2012/09/01/validatsiia-ssl-kliucha-i-siertifikata</id>
     <content type="html"><![CDATA[<p>Я столкнулся с ситуацией когда есть приватный ключ и несколько сертификатов, при этом непонятно к какому из сертификатов относится ключ.</p>
 
 <p>Информация о md5 сумме поможет разобраться в данной ситуации:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>openssl x509 -noout -modulus -in certificate.crt | openssl md5
@@ -871,21 +871,21 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Ubuntu, установка java 1.7]]></title>
-    <link href="http://blog.alfss.net//post/2012/03/08/ubuntu-install-java7/"/>
+    <link href="http://blog.alfss.net/post/2012/03/08/ubuntu-install-java7/"/>
     <updated>2012-03-08T14:14:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/03/08/ubuntu-install-java7</id>
+    <id>http://blog.alfss.net/post/2012/03/08/ubuntu-install-java7</id>
     <content type="html"><![CDATA[<p>На данный момент нету пакетов java 1.7.03 для Ubuntu, поэтому я решил поставить из оф. архива.</p>
 
 <p>Скачиваем jdk  с сайта Oracle http://www.oracle.com/technetwork/java/javase/downloads/index.html .</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Распаковываем архив и копируем в /usr/lib/jvm/java-7-oracle</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>tar zxf jdk-7u3-linux-x64.tar.gz
@@ -896,7 +896,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Прописываем как java по умолчанию</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -909,7 +909,7 @@ Unicorn будте использоватся как сервер приложе
 
 
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -924,9 +924,9 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Создание deb пакетов на примере postgresql 9.0]]></title>
-    <link href="http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql/"/>
+    <link href="http://blog.alfss.net/post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql/"/>
     <updated>2012-03-04T16:09:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql</id>
+    <id>http://blog.alfss.net/post/2012/03/04/sozdaniie-deb-pakietov-na-primierie-postgresql</id>
     <content type="html"><![CDATA[<p>Есть несколько способов создать пакет:</p>
 
 <ol>
@@ -949,7 +949,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Подготавливаем директории для сборки и скачиваем дистрибутивы.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -974,7 +974,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Инициализируем каркас deb пакета:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -991,7 +991,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Соберем информацию о требуемых зависимостях:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1146,7 +1146,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Скрипт старта</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1411,7 +1411,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Скрипт выполняемый после установки.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1436,7 +1436,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Файл который будет лежать по следуюшиму пути /etc/default/postgresql-9.0. Используется для изменения опций старта.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1465,7 +1465,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Скрипт выполняемый до установки.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1480,7 +1480,7 @@ Unicorn будте использоватся как сервер приложе
 
 <p>Этот файл отвечает за действия которые будут выполнены при создании пакета.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1590,9 +1590,9 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Миграция Imap яшиков с Gmail и Yandex]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/"/>
+    <link href="http://blog.alfss.net/post/2011/12/18/mighratsiia-imap-iashikov-s-gmail/"/>
     <updated>2011-12-18T16:00:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/18/mighratsiia-imap-iashikov-s-gmail</id>
+    <id>http://blog.alfss.net/post/2011/12/18/mighratsiia-imap-iashikov-s-gmail</id>
     <content type="html"><![CDATA[<p>После поднятия Zimbra, потребовалось переносить содержимое ящиков из Gmail и Yandex.<br>
 Я уже в принципе собрался писать свою тулзу, но нашел imapsync.<br>
 Спасибо тем людям которые раньше меня озаботились этой задачей :).<br></p>
@@ -1603,15 +1603,15 @@ Unicorn будте использоватся как сервер приложе
 <p>Файл с пользователями.<br>
 старый email:пароль:imap сервере:новый email: пароль: мой imap сервер</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">test</span>@example.net:examplepass1:imap.googlemail.com:test@example.net:examplepass2:localhost
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Скрипт перебирающий пользователей из файла users и синхронизирующий ящики.</p>
 
-<figure class='code'><figcaption><span> (imap_sync.sh)</span> <a href='http://blog.alfss.net//downloads/code/imap_sync.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span> (imap_sync.sh)</span> <a href='http://blog.alfss.net/downloads/code/imap_sync.sh'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1676,9 +1676,9 @@ Unicorn будте использоватся как сервер приложе
   
   <entry>
     <title type="html"><![CDATA[Тюнинг настроек Zimbra 7.1]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/"/>
+    <link href="http://blog.alfss.net/post/2011/12/18/tiuningh-nastroiek-zimbra/"/>
     <updated>2011-12-18T14:32:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra</id>
+    <id>http://blog.alfss.net/post/2011/12/18/tiuningh-nastroiek-zimbra</id>
     <content type="html"><![CDATA[<p>У меня в наличии:</p>
 
 <p>CPU: 64 bit 2-core<br>
@@ -1694,7 +1694,7 @@ Mem: 3Gb<br></p>
 
 <p>Устанавливаем максимальный размер письма 42Mb</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1711,7 +1711,7 @@ Mem: 3Gb<br></p>
 
 <p>Индексация писем каждые 20 сообщений (по умолчанию каждое сообщение)</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov mc default zimbraBatchedIndexingSize 20
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1723,7 +1723,7 @@ Mem: 3Gb<br></p>
 Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )<br>
 То есть мы выделяем по сути heap * 2.<br></p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_size</span><span class="o">=</span>512
 </span><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_new_size_percent</span><span class="o">=</span>25
@@ -1738,7 +1738,7 @@ Mem: 3Gb<br></p>
 
 <p>/opt/zimbra/conf/my.cnf</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1771,9 +1771,9 @@ Mem: 3Gb<br></p>
   
   <entry>
     <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting/"/>
+    <link href="http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting/"/>
     <updated>2011-12-14T01:25:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/14/zimbra-plus-gralisting</id>
+    <id>http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting</id>
     <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
 В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
 
@@ -1832,14 +1832,14 @@ Mem: 3Gb<br></p>
 
 <p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Перезапустим апача который идет в комплекте с zimbra.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1852,14 +1852,14 @@ Mem: 3Gb<br></p>
   
   <entry>
     <title type="html"><![CDATA[Кодировка СКУД Sphinx + Rails]]></title>
-    <link href="http://blog.alfss.net//post/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
+    <link href="http://blog.alfss.net/post/2011/12/13/kodirovka-skud-sphinx-plus-rails/"/>
     <updated>2011-12-13T01:21:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
+    <id>http://blog.alfss.net/post/2011/12/13/kodirovka-skud-sphinx-plus-rails</id>
     <content type="html"><![CDATA[<p>Волю случая пришлось залезть в БД данного СКУД.
 Все хорошо бы, но разработчикам взбрело хранить данные utf8 в latin1 таблицах.
 Rails на это реагирует невнятным бормотанием:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invalid</span> <span class="n">multibyte</span> <span class="n">char</span> <span class="p">(</span><span class="no">UTF</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
 </span><span class='line'><span class="n">syntax</span> <span class="n">error</span><span class="p">,</span> <span class="n">unexpected</span> <span class="vg">$end</span><span class="p">,</span> <span class="n">expecting</span> <span class="n">keyword_end</span>
@@ -1868,15 +1868,15 @@ Rails на это реагирует невнятным бормотанием:<
 
 <p>Костыль был найден почти сразу :)</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@Parsonal</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Но правильное решение, это изменить кодировку таблиц.</p>
 
-<figure class='code'><figcaption><span>change_codepage_personal  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>change_codepage_personal </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="ss">`personal`</span> <span class="k">convert</span> <span class="k">to</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span> <span class="k">collate</span> <span class="n">utf8_general_ci</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 

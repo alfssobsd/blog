@@ -92,7 +92,7 @@ Mem: 3Gb<br></p>
 
 <p>Устанавливаем максимальный размер письма 42Mb</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -109,7 +109,7 @@ Mem: 3Gb<br></p>
 
 <p>Индексация писем каждые 20 сообщений (по умолчанию каждое сообщение)</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>zmprov mc default zimbraBatchedIndexingSize 20
 </span></code></pre></td></tr></table></div></figure>
 
@@ -121,7 +121,7 @@ Mem: 3Gb<br></p>
 Нужно учитывать, что у нас 2 демона которые запускаются с помощью java. (zmmailboxdmgr, jetty )<br>
 То есть мы выделяем по сути heap * 2.<br></p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_size</span><span class="o">=</span>512
 </span><span class='line'> zmlocalconfig -e <span class="nv">mailboxd_java_heap_new_size_percent</span><span class="o">=</span>25
@@ -136,7 +136,7 @@ Mem: 3Gb<br></p>
 
 <p>/opt/zimbra/conf/my.cnf</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -209,8 +209,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/';
-        var disqus_url = 'http://blog.alfss.net//post/2011/12/18/tiuningh-nastroiek-zimbra/';
+        var disqus_identifier = 'http://blog.alfss.net/post/2011/12/18/tiuningh-nastroiek-zimbra/';
+        var disqus_url = 'http://blog.alfss.net/post/2011/12/18/tiuningh-nastroiek-zimbra/';
         var disqus_script = 'embed.js';
       
     (function () {

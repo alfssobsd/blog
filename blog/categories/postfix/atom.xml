@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: postfix | Треск и скрежет в моей голове]]></title>
-  <link href="http://blog.alfss.net//blog/categories/postfix/atom.xml" rel="self"/>
-  <link href="http://blog.alfss.net//"/>
-  <updated>2013-01-19T20:08:29+04:00</updated>
-  <id>http://blog.alfss.net//</id>
+  <link href="http://blog.alfss.net/blog/categories/postfix/atom.xml" rel="self"/>
+  <link href="http://blog.alfss.net/"/>
+  <updated>2013-12-13T17:22:30+04:00</updated>
+  <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Сохранение всей почты в один ящик Postfix + Dovecot]]></title>
-    <link href="http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/"/>
+    <link href="http://blog.alfss.net/post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot/"/>
     <updated>2012-09-02T18:39:00+04:00</updated>
-    <id>http://blog.alfss.net//post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot</id>
+    <id>http://blog.alfss.net/post/2012/09/02/sokhranieniie-vsiei-pochty-v-odin-iashchik-postfix-plus-dovecot</id>
     <content type="html"><![CDATA[<p>Мне потребовалось реализовать сохранение всей исходящей и входящей почты в один ящик на тестовом сервер.
 Как SMTP  я выбрал Postfix за его простоту и Dovecot как imap сервер и сервер доставки.</p>
 
@@ -30,7 +30,7 @@
 
 <p>В master.cf описываем наш новый сервис:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>dovecot  unix  -       n       n       -       -       pipe
 </span><span class='line'>   <span class="nv">flags</span><span class="o">=</span>DRhu <span class="nv">user</span><span class="o">=</span>webuser <span class="nv">argv</span><span class="o">=</span>/usr/lib/dovecot/deliver -d webuser
@@ -41,7 +41,7 @@
 <p>Устанавливаем службу dovecot(описанную выше) как дефолтную для доставки.</p>
 
 <p>main.cf:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">default_transport</span> <span class="o">=</span> dovecot
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -49,7 +49,7 @@
 
 <p>Описываем как и где смотреть пользователей (я выбрал хранение в файле).</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -71,14 +71,14 @@
 
 <p>Будем хранить почту в формате Maildir. Указываем директорию и формат хранения.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">mail_location</span> <span class="o">=</span> maildir:/srv/mail/%n
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 <em>/srv/mail пренадлежит webuser(uid 2000:gid 2000)</em></p>
 
 <p>Заключительный шаг. Описываем нашего пользователя (webuser) в файле /etc/dovecot/users</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>webuser:<span class="o">{</span>plain<span class="o">}</span>jagsjhdgajhsd:2000:2000::/home/webuser
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
