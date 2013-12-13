@@ -4,7 +4,7 @@
   <title><![CDATA[Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net/"/>
-  <updated>2013-12-13T17:22:30+04:00</updated>
+  <updated>2013-12-13T18:17:25+04:00</updated>
   <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Проблемы с сертификатом Zimbra]]></title>
+    <link href="http://blog.alfss.net/post/2013/12/13/probliemy-s-siertifikatom-zimbra/"/>
+    <updated>2013-12-13T18:06:24+04:00</updated>
+    <id>http://blog.alfss.net/post/2013/12/13/probliemy-s-siertifikatom-zimbra</id>
+    <content type="html"><![CDATA[<p>Если вы в один прекрасный день увидели прмерно следующие строки:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Starting logswatch…ERROR: service.FAILURE <span class="o">(</span>system failure: ZimbraLdapContext<span class="o">)</span> <span class="o">(</span>cause: javax.net.ssl.SSLHandshakeException sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed<span class="o">)</span>
+</span><span class='line'>zimbra logger service is not enabled! failed.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>то ва стоит прочесть эту заметку.</p>
+
+<!--more-->
+
+
+<p>По умолчанию zimbra создает сертификат только на 1 год (365 дней).</p>
+
+<p>Устраняемя не справедливость:</p>
+
+<p>Находим строку &#8220;validation_days&#8221; в файле /opt/zimbra/bin/zmcertmgr и заменяе ее значение с 365 на 3650.</p>
+
+<p>Выполняем следуший наборк комманд от root пользователя, все ошибки игнорируем.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s1">&#39;zmcontrol stop&#39;</span>
+</span><span class='line'>rm -rf /opt/zimbra/ssl/*
+</span><span class='line'>rm -rf /opt/zimbra/ssl/.rnd
+</span><span class='line'>/opt/zimbra/java/bin/keytool -delete -alias my_ca -keystore /opt/zimbra/java/jre/lib/security/cacerts -storepass changeit
+</span><span class='line'>/opt/zimbra/java/bin/keytool -delete -alias jetty -keystore /opt/zimbra/mailboxd/etc/keystore -storepass <span class="sb">`</span>su - zimbra -c <span class="s1">&#39;zmlocalconfig -s -m nokey mailboxd_keystore_password&#39;</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr createca -new
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deployca -localonly
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr createcrt self -new
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deploycrt self
+</span><span class='line'>
+</span><span class='line'>su - zimbra -c <span class="s1">&#39;zmcontrol start&#39;</span>
+</span><span class='line'>
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deploycrt self
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deployca
+</span><span class='line'>
+</span><span class='line'>su - zimbra -c <span class="s1">&#39;zmupdateauthkeys&#39;</span>
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr viewdeployedcrt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Теперь у нас должен быть сертификат на 10 лет :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Zabbix, динамическое обнаружение элементов на примере мониторинга RabbitMQ ]]></title>

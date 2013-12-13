@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Zimbra | Треск и скрежет в моей голове]]></title>
+  <title><![CDATA[Category: zimbra | Треск и скрежет в моей голове]]></title>
   <link href="http://blog.alfss.net/blog/categories/zimbra/atom.xml" rel="self"/>
   <link href="http://blog.alfss.net/"/>
-  <updated>2013-12-13T17:22:30+04:00</updated>
+  <updated>2013-12-13T18:17:25+04:00</updated>
   <id>http://blog.alfss.net/</id>
   <author>
     <name><![CDATA[Sergey V. Kravchuk]]></name>
@@ -14,20 +14,31 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Zimbra + Graylisting]]></title>
-    <link href="http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting/"/>
-    <updated>2011-12-14T01:25:00+04:00</updated>
-    <id>http://blog.alfss.net/post/2011/12/14/zimbra-plus-gralisting</id>
-    <content type="html"><![CDATA[<p>Я считаю, что серые списки это наиболее эффективный механизм противодействия спаму.
-В OpenBSD я использовал spamd, но к сожалению он не портирован на дугие ОС и фаерволы(pf).</p>
+    <title type="html"><![CDATA[Проблемы с сертификатом Zimbra]]></title>
+    <link href="http://blog.alfss.net/post/2013/12/13/probliemy-s-siertifikatom-zimbra/"/>
+    <updated>2013-12-13T18:06:24+04:00</updated>
+    <id>http://blog.alfss.net/post/2013/12/13/probliemy-s-siertifikatom-zimbra</id>
+    <content type="html"><![CDATA[<p>Если вы в один прекрасный день увидели прмерно следующие строки:</p>
 
-<p>Начиная с 7.1 Zimbra поставляется вместе с <a href="http://www.policyd.org/">Policyd v2</a>. Это перловый демон осуществляющий Gralisting + SPF check + EHLO check.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Starting logswatch…ERROR: service.FAILURE <span class="o">(</span>system failure: ZimbraLdapContext<span class="o">)</span> <span class="o">(</span>cause: javax.net.ssl.SSLHandshakeException sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed<span class="o">)</span>
+</span><span class='line'>zimbra logger service is not enabled! failed.
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3>Собственно приступим к настройке. ("Смерть спаму!")</h3>
+<p>то ва стоит прочесть эту заметку.</p>
 
 <!--more-->
 
 
+<p>По умолчанию zimbra создает сертификат только на 1 год (365 дней).</p>
+
+<p>Устраняемя не справедливость:</p>
+
+<p>Находим строку "validation_days" в файле /opt/zimbra/bin/zmcertmgr и заменяе ее значение с 365 на 3650.</p>
+
+<p>Выполняем следуший наборк комманд от root пользователя, все ошибки игнорируем.</p>
+
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -38,57 +49,35 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>su - zimbra
-</span><span class='line'>zmprov ms mail.example.net +zimbraServiceEnabled cbpolicyd
-</span><span class='line'>zmlocalconfig -e postfix_enable_smtpd_policyd=yes
-</span><span class='line'>zmprov mcf +zimbraMtaRestriction "check_policy_service inet:127.0.0.1:10031"
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_level=4
-</span><span class='line'>zmlocalconfig -e cbpolicyd_log_detail=modules,tracking,policies
-</span><span class='line'>zmlocalconfig -e cbpolicyd_module_accesscontrol=1 cbpolicyd_module_checkhelo=1 \
-</span><span class='line'>  cbpolicyd_module_checkspf=1 cbpolicyd_module_greylisting=1 cbpolicyd_module_quotas=1
-</span><span class='line'>zmmtactl restart
-</span><span class='line'>exit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Да, это все, что требовалось для запуска демона и скрещивания его с postfix. :)</p>
-
-<h3>Настраиваем веб морду.</h3>
-
-<p>Добавим в конец  /opt/zimbra/conf/httpd.conf  следующие строчки:
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alias /policyd /opt/zimbra/cbpolicyd/share/webui/&lt;/p>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s1">&#39;zmcontrol stop&#39;</span>
+</span><span class='line'>rm -rf /opt/zimbra/ssl/*
+</span><span class='line'>rm -rf /opt/zimbra/ssl/.rnd
+</span><span class='line'>/opt/zimbra/java/bin/keytool -delete -alias my_ca -keystore /opt/zimbra/java/jre/lib/security/cacerts -storepass changeit
+</span><span class='line'>/opt/zimbra/java/bin/keytool -delete -alias jetty -keystore /opt/zimbra/mailboxd/etc/keystore -storepass &lt;code&gt;su - zimbra -c <span class="s1">&#39;zmlocalconfig -s -m nokey mailboxd_keystore_password&#39;</span>&lt;/code&gt;&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p>&lt;Directory /opt/zimbra/cbpolicyd/share/webui/>&lt;/p>
+</span><span class='line'>&lt;p&gt;/opt/zimbra/bin/zmcertmgr createca -new
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deployca -localonly
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr createcrt self -new
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deploycrt self&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Order Deny,Allow
-</span><span class='line'>Deny from all
-</span><span class='line'>Allow from 192.168.1.0/255.255.255.0
-</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>&lt;p&gt;su - zimbra -c <span class="s1">&#39;zmcontrol start&#39;</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p>&lt;/Directory></span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Заменем строку $DB_DSN в /opt/zimbra/cbpolicyd-2.0.10/share/webui/includes/config.php  на следующую:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$DB_DSN=&quot;sqlite:/opt/zimbra/data/cbpolicyd/db/cbpolicyd.sqlitedb&quot;;</span>
+</span><span class='line'>&lt;p&gt;/opt/zimbra/bin/zmcertmgr deploycrt self
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr deployca&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;su - zimbra -c <span class="s1">&#39;zmupdateauthkeys&#39;</span>
+</span><span class='line'>/opt/zimbra/bin/zmcertmgr viewdeployedcrt
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Перезапустим апача который идет в комплекте с zimbra.
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>su - zimbra -c <span class="s2">&quot;zmapachectl restart&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Теперь панель управления policyd доступна по адресу  http://mail.example.net:7780/policyd/index.php</p>
-
-<p>Правда панель управления оставляет желать лучшего вплане UI, но это терпимо.</p>
+<p>Теперь у нас должен быть сертификат на 10 лет :)</p>
 ]]></content>
   </entry>
   
